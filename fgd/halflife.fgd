@@ -2719,6 +2719,9 @@
 //
 // =======================================================
 
+// =======================================================
+// "#2: Creating new entities"
+// =======================================================
 @PointClass base(Targetname) = trigger_print : "Point entity that prints to console"
 [
 	message(string) : "Message text"
@@ -2732,3 +2735,24 @@
 		5: "Server logged"
 	]
 ]
+
+// =======================================================
+// "#2.1: Think, Touch, Use"
+// =======================================================
+@PointClass = trigger_sethealth
+[
+	targetname(target_source) : "Name" : ""
+	health(integer) : "Health to be set" : 100
+]
+
+@PointClass = env_spark_custom
+[
+	targetname(target_source) : "Name" : ""
+	speed(string) : "Custom time" : "0.5"
+]
+
+@SolidClass = func_trampoline
+[
+	// No properties here, maybe a bounciness factor in the future
+]
+
