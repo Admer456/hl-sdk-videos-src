@@ -2756,3 +2756,11 @@
 	// No properties here, maybe a bounciness factor in the future
 ]
 
+// =======================================================
+// "#2.1.1: Player use and TakeDamage"
+// =======================================================
+@SolidClass = func_repairable
+[
+	// No properties here
+]
+
