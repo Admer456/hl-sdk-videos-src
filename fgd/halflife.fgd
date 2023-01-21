@@ -2764,3 +2764,10 @@
 	// No properties here
 ]
 
+// =======================================================
+// "#2.1.2: Modular entity functions"
+// =======================================================
+@SolidClass = func_fader
+[
+	// No properties here
+]
