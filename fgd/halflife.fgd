@@ -2840,4 +2840,8 @@
 @PointClass = example_hitbox []
 @PointClass = example_animevent []
 
-
+// =======================================================
+// "#3.3: Temporary entities"
+// =======================================================
+@PointClass = effect_test []
+@PointClass = effect_test2 []
