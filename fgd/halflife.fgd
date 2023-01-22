@@ -2771,3 +2771,22 @@
 [
 	// No properties here
 ]
+
+// =======================================================
+// "#2.2: Entity properties and precaching"
+// =======================================================
+
+// There's two ways you can use the studio() label:
+// 1. studio()                    -> use whatever's the model keyvalue
+// 2. studio("path/to/model.mdl") -> use this specific model
+@PointClass base(Targetname) studio() = env_model
+[
+	// model(studio) lets us pick the model to display in the
+	// map editor, as well as in-game
+	model(studio) : "Model path" : ""
+]
+
+@PointClass = env_follower
+[
+	// No properties here
+]
