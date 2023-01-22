@@ -2823,3 +2823,11 @@
 [
 	// No properties here
 ]
+
+// =======================================================
+// "#3.2: Animation"
+// =======================================================
+@PointClass = animation_test1 []
+@PointClass = animation_test2 []
+@PointClass = animation_test3 []
+
