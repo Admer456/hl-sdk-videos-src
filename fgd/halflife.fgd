@@ -2725,6 +2725,8 @@
 @PointClass base(Targetname) = trigger_print : "Point entity that prints to console"
 [
 	message(string) : "Message text"
+
+	// This keyvalue here is added in after #2.3: "Keyvalues and save-restore"
 	printMode(choices) : "Print mode" : 1 =
 	[
 		0: "Info"
