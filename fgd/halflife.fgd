@@ -2816,3 +2816,10 @@
 	delayTime(string) : "Interval"
 ]
 
+// =======================================================
+// "#3: Tracelines" and "#3.1: Vector maths"
+// =======================================================
+@SolidClass base(Target) = func_security_cam 
+[
+	// No properties here
+]
