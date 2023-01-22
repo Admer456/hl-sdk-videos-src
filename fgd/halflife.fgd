@@ -2831,3 +2831,13 @@
 @PointClass = animation_test2 []
 @PointClass = animation_test3 []
 
+// =======================================================
+// "#3.3: Advanced animation"
+// =======================================================
+@PointClass = particle_object []
+@PointClass = example_attachment []
+@PointClass = example_controller []
+@PointClass = example_hitbox []
+@PointClass = example_animevent []
+
+
