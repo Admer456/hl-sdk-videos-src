@@ -2801,4 +2801,18 @@
 	explode_target(target_destination) : "Explode target"
 ]
 
+// =======================================================
+// "#2.5: Enhancing existing entities"
+// =======================================================
+@PointClass base(Targetname) = ambient_simple
+[
+	noise(sound) : "Sound file"
+]
+
+// The Target base gives this entity a "target" field,
+// so we don't have to write it ourselves
+@PointClass base(Targetname, Target) = trigger_timer
+[
+	delayTime(string) : "Interval"
+]
 
