@@ -2792,3 +2792,13 @@
 [
 	// No properties here
 ]
+
+// =======================================================
+// "#2.4: Finding other entities"
+// =======================================================
+@PointClass base(Targetname) = func_exploder
+[
+	explode_target(target_destination) : "Explode target"
+]
+
+
