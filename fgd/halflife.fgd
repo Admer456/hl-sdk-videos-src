@@ -2877,3 +2877,10 @@
 	]
 ]
 
+// =======================================================
+// "#3.5: Sprites and lasers"
+// =======================================================
+@PointClass base() = sprite_example []
+@PointClass base() = sprite_example2 []
+@PointClass base() = sprite_example3 []
+@PointClass base(Angles) = beam_example []
