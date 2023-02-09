@@ -2841,7 +2841,39 @@
 @PointClass = example_animevent []
 
 // =======================================================
-// "#3.3: Temporary entities"
+// "#3.4: Temporary entities"
 // =======================================================
 @PointClass = effect_test []
-@PointClass = effect_test2 []
+@PointClass = effect_test2
+[
+	button(Choices) : "Effect preset" : 0 =
+	[
+		 0: "TE_BeamPoints"
+		 1: "TE_Gunshot"
+		 2: "TE_Smoke"
+		 3: "TE_Tracer"
+		 4: "TE_Lightning"
+		 5: "TE_Sparks"
+		 6: "TE_BspDecal"
+		 7: "TE_Implosion"
+		 8: "TE_SpriteTrail"
+		 9: "TE_Sprite"
+		10: "TE_BeamTorus"
+		11: "TE_DLight"
+		12: "TE_ELight"
+		13: "TE_Line"
+		14: "TE_LargeFunnel"
+		15: "TE_BloodStream"
+		16: "TE_Fizz"
+		17: "TE_Model"
+		18: "TE_ExplodeModel"
+		19: "TE_BreakModel"
+		20: "TE_SpriteSpray"
+		21: "TE_ArmorRicochet"
+		22: "TE_Bubbles"
+		23: "TE_BubbleTrail"
+		24: "TE_ParticleBurst"
+		25: "TE_FireField"
+	]
+]
+
