@@ -323,10 +323,10 @@ public:
 
 	void ItemPostFrame() override; // called each frame by the player PostThink
 	// called by CBasePlayerWeapons ItemPostFrame()
-	virtual void PrimaryAttack() {}						  // do "+ATTACK"
-	virtual void SecondaryAttack() {}					  // do "+ATTACK2"
-	virtual void Reload() {}							  // do "+RELOAD"
-	virtual void WeaponIdle() {}						  // called when no buttons pressed
+	virtual void PrimaryAttack() {}	 // do "+ATTACK"
+	virtual void SecondaryAttack() {}// do "+ATTACK2"
+	virtual void Reload() {}		 // do "+RELOAD"
+	virtual void WeaponIdle() {}	 // called when no buttons pressed
 	bool UpdateClientData(CBasePlayer* pPlayer) override; // sends hud info to client dll, if things have changed
 	void RetireWeapon();
 

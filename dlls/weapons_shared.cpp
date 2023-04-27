@@ -149,9 +149,14 @@ void CBasePlayerWeapon::ItemPostFrame()
 		SecondaryAttack();
 		m_pPlayer->pev->button &= ~IN_ATTACK2;
 	}
-	else if ((m_pPlayer->pev->button & IN_ATTACK) != 0 && CanAttack(m_flNextPrimaryAttack, gpGlobals->time, UseDecrement()))
+	else if ((m_pPlayer->pev->button & IN_ATTACK) != 0
+		// m_flNextPrimaryAttack <= gpGlobals->time
+		&& CanAttack(m_flNextPrimaryAttack, gpGlobals->time, UseDecrement()))
 	{
-		if ((m_iClip == 0 && pszAmmo1()) || (iMaxClip() == -1 && 0 == m_pPlayer->m_rgAmmo[PrimaryAmmoIndex()]))
+		// For weapons w/ primary ammo: if magazine is empty
+		if ((m_iClip == 0 && pszAmmo1())
+			// For weapons that don't use magazines: if player's ammo reserve is empty
+			|| (iMaxClip() == -1 && m_pPlayer->m_rgAmmo[PrimaryAmmoIndex()] == 0))
 		{
 			m_fFireOnEmpty = true;
 		}
