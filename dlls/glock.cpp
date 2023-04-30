@@ -80,12 +80,11 @@ bool CGlock::Deploy()
 
 void CGlock::SecondaryAttack()
 {
-	GlockFire(0.1, 0.2, false);
 }
 
 void CGlock::PrimaryAttack()
 {
-	GlockFire(0.01, 0.3, true);
+	GlockFire(0.01, 0.001, true);
 }
 
 void CGlock::GlockFire(float flSpread, float flCycleTime, bool fUseAutoAim)
@@ -98,6 +97,13 @@ void CGlock::GlockFire(float flSpread, float flCycleTime, bool fUseAutoAim)
 			m_flNextPrimaryAttack = GetNextAttackDelay(0.2);
 		}
 
+		return;
+	}
+
+	// pev->buttons & IN_ATTACK is *already* true
+	// because PrimaryAttack is even BEING called
+	if (m_pPlayer->m_afButtonLast & IN_ATTACK)
+	{
 		return;
 	}
 
