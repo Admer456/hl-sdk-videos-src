@@ -148,6 +148,7 @@ void CCrowbar::SwingAgain()
 	Swing(false);
 }
 
+#include "explode.h"
 
 bool CCrowbar::Swing(bool fFirst)
 {
@@ -232,6 +233,9 @@ bool CCrowbar::Swing(bool fFirst)
 			// subsequent swings do half
 			pEntity->TraceAttack(m_pPlayer->pev, gSkillData.plrDmgCrowbar / 2, gpGlobals->v_forward, &tr, DMG_CLUB);
 		}
+
+		ExplosionCreate(tr.vecEndPos, g_vecZero, m_pPlayer->edict(), 200, true);
+
 		ApplyMultiDamage(m_pPlayer->pev, m_pPlayer->pev);
 
 #endif
