@@ -873,16 +873,16 @@ bool CBaseMonster::TakeDamage(entvars_t* pevInflictor, entvars_t* pevAttacker, f
 	// todo: remove after combining shotgun blasts?
 	if (IsPlayer())
 	{
-		if (pevInflictor)
-			pev->dmg_inflictor = ENT(pevInflictor);
-
-		pev->dmg_take += flTake;
-
 		// check for godmode or invincibility
 		if ((pev->flags & FL_GODMODE) != 0)
 		{
 			return false;
 		}
+		
+		if (pevInflictor)
+			pev->dmg_inflictor = ENT(pevInflictor);
+
+		pev->dmg_take += flTake;
 	}
 
 	// if this is a player, move him around!
