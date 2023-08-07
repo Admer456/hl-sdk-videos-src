@@ -59,6 +59,8 @@ enum WeaponId
 	WEAPON_SATCHEL,
 	WEAPON_SNARK,
 
+	WEAPON_DEAGLE,
+
 	WEAPON_SUIT = 31
 };
 

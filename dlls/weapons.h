@@ -73,6 +73,7 @@ public:
 // weapon weight factors (for auto-switching)   (-1 = noswitch)
 #define CROWBAR_WEIGHT 0
 #define GLOCK_WEIGHT 10
+#define DEAGLE_WEIGHT 15
 #define PYTHON_WEIGHT 15
 #define MP5_WEIGHT 15
 #define SHOTGUN_WEIGHT 15
@@ -106,6 +107,7 @@ public:
 
 //#define CROWBAR_MAX_CLIP		WEAPON_NOCLIP
 #define GLOCK_MAX_CLIP 17
+#define DEAGLE_MAX_CLIP 7
 #define PYTHON_MAX_CLIP 6
 #define MP5_MAX_CLIP 30
 #define MP5_DEFAULT_AMMO 25
@@ -123,6 +125,7 @@ public:
 
 // the default amount of ammo that comes with each gun when it spawns
 #define GLOCK_DEFAULT_GIVE 17
+#define DEAGLE_DEFAULT_GIVE 7
 #define PYTHON_DEFAULT_GIVE 6
 #define MP5_DEFAULT_GIVE 25
 #define MP5_DEFAULT_AMMO 25
@@ -519,6 +522,51 @@ private:
 
 	unsigned short m_usFireGlock1;
 	unsigned short m_usFireGlock2;
+};
+
+enum deagle_e
+{
+	DEAGLE_IDLE1 = 0,
+	DEAGLE_IDLE2,
+	DEAGLE_IDLE3,
+	DEAGLE_IDLE4,
+	DEAGLE_IDLE5,
+	DEAGLE_SHOOT,
+	DEAGLE_SHOOT_EMPTY,
+	DEAGLE_RELOAD,
+	DEAGLE_RELOAD_NOT_EMPTY,
+	DEAGLE_DRAW,
+	DEAGLE_HOLSTER
+};
+
+class CDesertEagle : public CBasePlayerWeapon
+{
+public:
+	void Spawn() override;
+	void Precache() override;
+	int iItemSlot() override { return 2; }
+	bool GetItemInfo(ItemInfo* p) override;
+
+	void PrimaryAttack() override;
+	void SecondaryAttack() override;
+	void DeagleFire(float flSpread, float flCycleTime, bool fUseAutoAim);
+	bool Deploy() override;
+	void Reload() override;
+	void WeaponIdle() override;
+
+	bool UseDecrement() override
+	{
+#if defined(CLIENT_WEAPONS)
+		return true;
+#else
+		return false;
+#endif
+	}
+
+private:
+	int m_iShell;
+
+	unsigned short m_usFireDeagle;
 };
 
 enum crowbar_e

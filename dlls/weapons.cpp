@@ -272,54 +272,57 @@ void W_Precache()
 	UTIL_PrecacheOther("item_security");
 	UTIL_PrecacheOther("item_longjump");
 
-	// shotgun
+	// Shotgun
 	UTIL_PrecacheOtherWeapon("weapon_shotgun");
 	UTIL_PrecacheOther("ammo_buckshot");
 
-	// crowbar
+	// Crowbar
 	UTIL_PrecacheOtherWeapon("weapon_crowbar");
 
-	// glock
+	// Glock
 	UTIL_PrecacheOtherWeapon("weapon_9mmhandgun");
 	UTIL_PrecacheOther("ammo_9mmclip");
 
-	// mp5
+	// Desert Eagle
+	UTIL_PrecacheOtherWeapon("weapon_deagle");
+
+	// MP5
 	UTIL_PrecacheOtherWeapon("weapon_9mmAR");
 	UTIL_PrecacheOther("ammo_9mmAR");
 	UTIL_PrecacheOther("ammo_ARgrenades");
 
-	// python
+	// Python
 	UTIL_PrecacheOtherWeapon("weapon_357");
 	UTIL_PrecacheOther("ammo_357");
 
-	// gauss
+	// Gauss
 	UTIL_PrecacheOtherWeapon("weapon_gauss");
 	UTIL_PrecacheOther("ammo_gaussclip");
 
-	// rpg
+	// RPG
 	UTIL_PrecacheOtherWeapon("weapon_rpg");
 	UTIL_PrecacheOther("ammo_rpgclip");
 
-	// crossbow
+	// Crossbow
 	UTIL_PrecacheOtherWeapon("weapon_crossbow");
 	UTIL_PrecacheOther("ammo_crossbow");
 
-	// egon
+	// Egon
 	UTIL_PrecacheOtherWeapon("weapon_egon");
 
-	// tripmine
+	// Tripmine
 	UTIL_PrecacheOtherWeapon("weapon_tripmine");
 
-	// satchel charge
+	// Satchel charge
 	UTIL_PrecacheOtherWeapon("weapon_satchel");
 
-	// hand grenade
+	// Hand grenade
 	UTIL_PrecacheOtherWeapon("weapon_handgrenade");
 
-	// squeak grenade
+	// Squeak grenade
 	UTIL_PrecacheOtherWeapon("weapon_snark");
 
-	// hornetgun
+	// Hornet gun
 	UTIL_PrecacheOtherWeapon("weapon_hornetgun");
 
 	if (g_pGameRules->IsDeathmatch())
