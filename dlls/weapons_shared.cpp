@@ -245,3 +245,5 @@ void CBasePlayer::SelectLastItem()
 
 	m_pActiveItem->UpdateItemInfo();
 }
+
+CWeaponRegistry* CWeaponRegistry::m_pHead = NULL;

@@ -399,7 +399,7 @@ void CSqueakGrenade::SuperBounceTouch(CBaseEntity* pOther)
 
 #endif
 
-LINK_ENTITY_TO_CLASS(weapon_snark, CSqueak);
+LINK_WEAPON_TO_CLASS(weapon_snark, CSqueak);
 
 
 void CSqueak::Spawn()

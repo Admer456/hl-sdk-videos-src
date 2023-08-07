@@ -17,6 +17,7 @@
 
 #include "effects.h"
 #include "weaponinfo.h"
+#include <cassert>
 
 class CBasePlayer;
 class CBasePlayerWeapon;
@@ -1262,3 +1263,61 @@ public:
 private:
 	unsigned short m_usSnarkFire;
 };
+
+class CWeaponRegistry
+{
+public:
+	using FactoryFn = CBasePlayerWeapon* (*)(entvars_t* pev);
+
+public:
+	CWeaponRegistry(const char* pszMapName, const char* pszDLLClassName, FactoryFn pFactoryFn)
+		: m_pszMapName(pszMapName), m_pszDLLClassName(pszDLLClassName), m_pFactoryFn(pFactoryFn)
+	{
+		// Don't register multiple weapons with the same underlying class
+		for (CWeaponRegistry* pReg = m_pHead; pReg; pReg = pReg->GetNext())
+		{
+			if (!strcmp(pszDLLClassName, pReg->GetDLLClassName()))
+			{
+				// The problem in question is the wrong name being used to look up HUD sprites and selecting weapons
+				// Only use LINK_WEAPON_TO_CLASS for the name used for sprites, and the name the classname is set to in Spawn()
+				assert(!"Registering multiple names for the same weapon will cause problems");
+				return;
+			}
+		}
+
+		m_pNext = m_pHead;
+		m_pHead = this;
+	}
+
+	const char* GetMapName() const { return m_pszMapName; }
+
+	const char* GetDLLClassName() const { return m_pszDLLClassName; }
+
+	FactoryFn GetFactory() const { return m_pFactoryFn; }
+
+	static CWeaponRegistry* GetHead() { return m_pHead; }
+
+	CWeaponRegistry* GetNext() const { return m_pNext; }
+
+private:
+	const char* const m_pszMapName;
+	const char* const m_pszDLLClassName;
+	const FactoryFn m_pFactoryFn;
+
+	static CWeaponRegistry* m_pHead;
+
+	CWeaponRegistry* m_pNext;
+
+private:
+	// No copying
+	CWeaponRegistry(const CWeaponRegistry&);
+	CWeaponRegistry& operator=(const CWeaponRegistry&);
+};
+
+#define LINK_WEAPON_TO_CLASS(mapClassName, DLLClassName)                                                              \
+	static CBasePlayerWeapon* __Create##mapClassName(entvars_t* pev)                                                  \
+	{                                                                                                                 \
+		return static_cast<CBasePlayerWeapon*>(new (pev) DLLClassName);                                               \
+	}                                                                                                                 \
+	static CWeaponRegistry __g_##mapClassName##WeaponRegistry(#mapClassName, #DLLClassName, &__Create##mapClassName); \
+	LINK_ENTITY_TO_CLASS(mapClassName, DLLClassName)

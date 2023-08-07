@@ -244,6 +244,11 @@ public:
 			(this->*m_pfnBlocked)(pOther);
 	}
 
+	void* operator new(size_t stAllocateBlock, entvars_t* pev)
+	{
+		return (void*)ALLOC_PRIVATE(ENT(pev), stAllocateBlock);
+	};
+
 	void* operator new(size_t stAllocateBlock)
 	{
 		//Allocate zero-initialized memory.

@@ -24,7 +24,7 @@
 #include "gamerules.h"
 #include "UserMessages.h"
 
-LINK_ENTITY_TO_CLASS(weapon_gauss, CGauss);
+LINK_WEAPON_TO_CLASS(weapon_gauss, CGauss);
 
 float CGauss::GetFullChargeTime()
 {

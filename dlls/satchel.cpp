@@ -155,7 +155,7 @@ void CSatchelCharge::BounceSound()
 }
 
 
-LINK_ENTITY_TO_CLASS(weapon_satchel, CSatchel);
+LINK_WEAPON_TO_CLASS(weapon_satchel, CSatchel);
 
 
 //=========================================================

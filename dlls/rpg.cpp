@@ -22,7 +22,7 @@
 #include "gamerules.h"
 #include "UserMessages.h"
 
-LINK_ENTITY_TO_CLASS(weapon_rpg, CRpg);
+LINK_WEAPON_TO_CLASS(weapon_rpg, CRpg);
 
 #ifndef CLIENT_DLL
 

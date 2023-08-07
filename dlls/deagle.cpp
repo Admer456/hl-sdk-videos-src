@@ -21,7 +21,7 @@
 #include "weapons.h"
 #include "player.h"
 
-LINK_ENTITY_TO_CLASS(weapon_deagle, CDesertEagle);
+LINK_WEAPON_TO_CLASS(weapon_deagle, CDesertEagle);
 
 void CDesertEagle::Spawn()
 {

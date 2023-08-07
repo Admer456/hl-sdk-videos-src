@@ -272,58 +272,20 @@ void W_Precache()
 	UTIL_PrecacheOther("item_security");
 	UTIL_PrecacheOther("item_longjump");
 
-	// Shotgun
-	UTIL_PrecacheOtherWeapon("weapon_shotgun");
+	for (CWeaponRegistry* pReg = CWeaponRegistry::GetHead(); pReg; pReg = pReg->GetNext())
+	{
+		// Just use the existing code here
+		UTIL_PrecacheOtherWeapon(pReg->GetMapName());
+	}
+
 	UTIL_PrecacheOther("ammo_buckshot");
-
-	// Crowbar
-	UTIL_PrecacheOtherWeapon("weapon_crowbar");
-
-	// Glock
-	UTIL_PrecacheOtherWeapon("weapon_9mmhandgun");
 	UTIL_PrecacheOther("ammo_9mmclip");
-
-	// Desert Eagle
-	UTIL_PrecacheOtherWeapon("weapon_deagle");
-
-	// MP5
-	UTIL_PrecacheOtherWeapon("weapon_9mmAR");
 	UTIL_PrecacheOther("ammo_9mmAR");
 	UTIL_PrecacheOther("ammo_ARgrenades");
-
-	// Python
-	UTIL_PrecacheOtherWeapon("weapon_357");
 	UTIL_PrecacheOther("ammo_357");
-
-	// Gauss
-	UTIL_PrecacheOtherWeapon("weapon_gauss");
 	UTIL_PrecacheOther("ammo_gaussclip");
-
-	// RPG
-	UTIL_PrecacheOtherWeapon("weapon_rpg");
 	UTIL_PrecacheOther("ammo_rpgclip");
-
-	// Crossbow
-	UTIL_PrecacheOtherWeapon("weapon_crossbow");
 	UTIL_PrecacheOther("ammo_crossbow");
-
-	// Egon
-	UTIL_PrecacheOtherWeapon("weapon_egon");
-
-	// Tripmine
-	UTIL_PrecacheOtherWeapon("weapon_tripmine");
-
-	// Satchel charge
-	UTIL_PrecacheOtherWeapon("weapon_satchel");
-
-	// Hand grenade
-	UTIL_PrecacheOtherWeapon("weapon_handgrenade");
-
-	// Squeak grenade
-	UTIL_PrecacheOtherWeapon("weapon_snark");
-
-	// Hornet gun
-	UTIL_PrecacheOtherWeapon("weapon_hornetgun");
 
 	if (g_pGameRules->IsDeathmatch())
 	{
