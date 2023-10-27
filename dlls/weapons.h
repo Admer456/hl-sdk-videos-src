@@ -758,12 +758,17 @@ enum shotgun_e
 class CShotgun : public CBasePlayerWeapon
 {
 public:
+	enum BurstState
+	{
+		BURST_IDLE = -2,
+		BURST_TRIGGER = -1
+	};
+
 #ifndef CLIENT_DLL
 	bool Save(CSave& save) override;
 	bool Restore(CRestore& restore) override;
 	static TYPEDESCRIPTION m_SaveData[];
 #endif
-
 
 	void Spawn() override;
 	void Precache() override;
@@ -792,6 +797,7 @@ public:
 private:
 	unsigned short m_usDoubleFire;
 	unsigned short m_usSingleFire;
+	int m_iBurstState = BURST_IDLE;
 };
 
 class CLaserSpot : public CBaseEntity
