@@ -760,8 +760,9 @@ class CShotgun : public CBasePlayerWeapon
 public:
 	enum BurstState
 	{
-		BURST_IDLE = -2,
-		BURST_TRIGGER = -1
+		BURST_IDLE = -1,
+		BURST_TRIGGER = 0,
+		BURST_NUM_SHOTS = 3
 	};
 
 #ifndef CLIENT_DLL

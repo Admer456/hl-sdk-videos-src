@@ -241,7 +241,7 @@ void CShotgun::WeaponIdle()
 	{
 		if (m_iBurstState > BURST_IDLE)
 		{
-			if (m_iBurstState > 2)
+			if (m_iBurstState >= BURST_NUM_SHOTS)
 			{
 				m_iBurstState = BURST_IDLE;
 			}
@@ -250,7 +250,7 @@ void CShotgun::WeaponIdle()
 				m_iBurstState++;
 				PrimaryAttack();
 			}
-
+			// This is gonna be your burst fire rate. 0.1s between shots
 			m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + 0.1f;
 			return;
 		}
