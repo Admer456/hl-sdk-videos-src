@@ -324,6 +324,9 @@
     <ClCompile Include="..\..\dlls\deagle.cpp">
       <Filter>Source Files\_hl\dlls</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\sniper.cpp">
+      <Filter>Source Files\_hl\dlls</Filter>
+    </ClCompile>
     <ClCompile Include="..\..\dlls\machinegun.cpp">
       <Filter>Source Files\_hl\dlls</Filter>
     </ClCompile>

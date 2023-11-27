@@ -75,6 +75,7 @@ public:
 #define CROWBAR_WEIGHT 0
 #define GLOCK_WEIGHT 10
 #define DEAGLE_WEIGHT 15
+#define SNIPER_WEIGHT 20
 #define PYTHON_WEIGHT 15
 #define MP5_WEIGHT 15
 #define M249_WEIGHT 20
@@ -111,6 +112,7 @@ public:
 //#define CROWBAR_MAX_CLIP		WEAPON_NOCLIP
 #define GLOCK_MAX_CLIP 17
 #define DEAGLE_MAX_CLIP 7
+#define SNIPER_MAX_CLIP 5
 #define PYTHON_MAX_CLIP 6
 #define MP5_MAX_CLIP 30
 #define MP5_DEFAULT_AMMO 25
@@ -130,6 +132,7 @@ public:
 // the default amount of ammo that comes with each gun when it spawns
 #define GLOCK_DEFAULT_GIVE 17
 #define DEAGLE_DEFAULT_GIVE 7
+#define SNIPER_DEFAULT_GIVE 5
 #define PYTHON_DEFAULT_GIVE 6
 #define MP5_DEFAULT_GIVE 25
 #define MP5_DEFAULT_AMMO 25
@@ -654,6 +657,46 @@ public:
 
 private:
 	unsigned short m_usFirePython;
+};
+
+enum sniper_e
+{
+	SNIPER_DRAW = 0,
+	SNIPER_SLOWIDLE,
+	SNIPER_FIRE,
+	SNIPER_FIRELAST,
+	SNIPER_RELOAD1,
+	SNIPER_RELOAD2,
+	SNIPER_RELOAD3,
+	SNIPER_SLOWIDLE2,
+	SNIPER_HOLSTER
+};
+
+class CSniperRifle : public CBasePlayerWeapon
+{
+public:
+	void Spawn() override;
+	void Precache() override;
+	int iItemSlot() override { return 3; }
+	bool GetItemInfo(ItemInfo* p) override;
+	void PrimaryAttack() override;
+	void SecondaryAttack() override;
+	bool Deploy() override;
+	void Holster() override;
+	void Reload() override;
+	void WeaponIdle() override;
+
+	bool UseDecrement() override
+	{
+#if defined(CLIENT_WEAPONS)
+		return true;
+#else
+		return false;
+#endif
+	}
+
+private:
+	unsigned short m_usFireSniper;
 };
 
 enum mp5_e

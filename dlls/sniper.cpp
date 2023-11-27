@@ -22,46 +22,43 @@
 #include "gamerules.h"
 #include "UserMessages.h"
 
-LINK_ENTITY_TO_CLASS(weapon_python, CPython);
-LINK_WEAPON_TO_CLASS(weapon_357, CPython);
+LINK_WEAPON_TO_CLASS(weapon_sniper, CSniperRifle);
 
-bool CPython::GetItemInfo(ItemInfo* p)
+bool CSniperRifle::GetItemInfo(ItemInfo* p)
 {
 	p->pszName = STRING(pev->classname);
 	p->pszAmmo1 = "357";
-	p->iMaxAmmo1 = _357_MAX_CARRY;
-	p->pszAmmo2 = NULL;
+	p->iMaxAmmo1 = BOLT_MAX_CARRY;
+	p->pszAmmo2 = nullptr;
 	p->iMaxAmmo2 = -1;
-	p->iMaxClip = PYTHON_MAX_CLIP;
+	p->iMaxClip = SNIPER_MAX_CLIP;
 	p->iFlags = 0;
-	p->iSlot = 1;
+	p->iSlot = 5;
 	p->iPosition = 1;
-	p->iId = m_iId = WEAPON_PYTHON;
-	p->iWeight = PYTHON_WEIGHT;
+	p->iId = m_iId = WEAPON_SNIPER;
+	p->iWeight = SNIPER_WEIGHT;
 
 	return true;
 }
 
-void CPython::Spawn()
+void CSniperRifle::Spawn()
 {
-	pev->classname = MAKE_STRING("weapon_357"); // hack to allow for old names
 	Precache();
-	m_iId = WEAPON_PYTHON;
-	SET_MODEL(ENT(pev), "models/w_357.mdl");
+	m_iId = WEAPON_SNIPER;
+	SET_MODEL(ENT(pev), "models/w_m40a1.mdl");
 
-	m_iDefaultAmmo = PYTHON_DEFAULT_GIVE;
+	m_iDefaultAmmo = SNIPER_DEFAULT_GIVE;
 
 	FallInit(); // get ready to fall down.
 }
 
-
-void CPython::Precache()
+void CSniperRifle::Precache()
 {
-	PRECACHE_MODEL("models/v_357.mdl");
-	PRECACHE_MODEL("models/w_357.mdl");
-	PRECACHE_MODEL("models/p_357.mdl");
+	PRECACHE_MODEL("models/v_m40a1.mdl");
+	PRECACHE_MODEL("models/w_m40a1.mdl");
+	PRECACHE_MODEL("models/p_m40a1.mdl");
 
-	PRECACHE_MODEL("models/w_357ammobox.mdl");
+	PRECACHE_MODEL("models/w_m40a1clip.mdl");
 	PRECACHE_SOUND("items/9mmclip1.wav");
 
 	PRECACHE_SOUND("weapons/357_reload1.wav");
@@ -69,30 +66,15 @@ void CPython::Precache()
 	PRECACHE_SOUND("weapons/357_shot1.wav");
 	PRECACHE_SOUND("weapons/357_shot2.wav");
 
-	m_usFirePython = PRECACHE_EVENT(1, "events/python.sc");
+	m_usFireSniper = PRECACHE_EVENT(1, "events/sniper.sc");
 }
 
-bool CPython::Deploy()
+bool CSniperRifle::Deploy()
 {
-#ifdef CLIENT_DLL
-	if (bIsMultiplayer())
-#else
-	if (g_pGameRules->IsMultiplayer())
-#endif
-	{
-		// enable laser sight geometry.
-		pev->body = 1;
-	}
-	else
-	{
-		pev->body = 0;
-	}
-
-	return DefaultDeploy("models/v_357.mdl", "models/p_357.mdl", PYTHON_DRAW, "python", pev->body);
+	return DefaultDeploy("models/v_m40a1.mdl", "models/p_m40a1.mdl", SNIPER_DRAW, "mp5", 0);
 }
 
-
-void CPython::Holster()
+void CSniperRifle::Holster()
 {
 	m_fInReload = false; // cancel any reload in progress.
 
@@ -103,20 +85,11 @@ void CPython::Holster()
 
 	m_pPlayer->m_flNextAttack = UTIL_WeaponTimeBase() + 1.0;
 	m_flTimeWeaponIdle = UTIL_SharedRandomFloat(m_pPlayer->random_seed, 10, 15);
-	SendWeaponAnim(PYTHON_HOLSTER);
+	SendWeaponAnim(SNIPER_HOLSTER);
 }
 
-void CPython::SecondaryAttack()
+void CSniperRifle::SecondaryAttack()
 {
-#ifdef CLIENT_DLL
-	if (!bIsMultiplayer())
-#else
-	if (!g_pGameRules->IsMultiplayer())
-#endif
-	{
-		return;
-	}
-
 	if (m_pPlayer->m_iFOV != 0)
 	{	// 0 means reset to default fov
 		m_pPlayer->m_iFOV = 0;
@@ -129,7 +102,7 @@ void CPython::SecondaryAttack()
 	m_flNextSecondaryAttack = 0.5;
 }
 
-void CPython::PrimaryAttack()
+void CSniperRifle::PrimaryAttack()
 {
 	// don't fire underwater
 	if (m_pPlayer->pev->waterlevel == 3)
@@ -151,15 +124,12 @@ void CPython::PrimaryAttack()
 	}
 
 	m_pPlayer->m_iWeaponVolume = LOUD_GUN_VOLUME;
-	m_pPlayer->m_iWeaponFlash = BRIGHT_GUN_FLASH;
+	m_pPlayer->m_iWeaponFlash = DIM_GUN_FLASH;
 
 	m_iClip--;
 
-	m_pPlayer->pev->effects = (int)(m_pPlayer->pev->effects) | EF_MUZZLEFLASH;
-
 	// player "shoot" animation
 	m_pPlayer->SetAnimation(PLAYER_ATTACK1);
-
 
 	UTIL_MakeVectors(m_pPlayer->pev->v_angle + m_pPlayer->pev->punchangle);
 
@@ -176,18 +146,17 @@ void CPython::PrimaryAttack()
 	flags = 0;
 #endif
 
-	PLAYBACK_EVENT_FULL(flags, m_pPlayer->edict(), m_usFirePython, 0.0, g_vecZero, g_vecZero, vecDir.x, vecDir.y, 0, 0, 0, 0);
+	PLAYBACK_EVENT_FULL(flags, m_pPlayer->edict(), m_usFireSniper, 0.0, g_vecZero, g_vecZero, vecDir.x, vecDir.y, m_iClip, 0, 0, 0);
 
 	if (0 == m_iClip && m_pPlayer->m_rgAmmo[m_iPrimaryAmmoType] <= 0)
 		// HEV suit - indicate out of ammo condition
 		m_pPlayer->SetSuitUpdate("!HEV_AMO0", false, 0);
 
-	m_flNextPrimaryAttack = 0.75;
-	m_flTimeWeaponIdle = UTIL_SharedRandomFloat(m_pPlayer->random_seed, 10, 15);
+	m_flNextPrimaryAttack = GetNextAttackDelay( 1.5f );
+	m_flTimeWeaponIdle = UTIL_WeaponTimeBase() + 2.0f;
 }
 
-
-void CPython::Reload()
+void CSniperRifle::Reload()
 {
 	if (m_pPlayer->ammo_357 <= 0)
 		return;
@@ -197,18 +166,10 @@ void CPython::Reload()
 		m_pPlayer->m_iFOV = 0; // 0 means reset to default fov
 	}
 
-	bool bUseScope = false;
-#ifdef CLIENT_DLL
-	bUseScope = bIsMultiplayer();
-#else
-	bUseScope = g_pGameRules->IsMultiplayer();
-#endif
-
-	DefaultReload(6, PYTHON_RELOAD, 2.0, bUseScope ? 1 : 0);
+	DefaultReload(6, RANDOM_LONG(SNIPER_RELOAD1, SNIPER_RELOAD3), 2.0, 0);
 }
 
-
-void CPython::WeaponIdle()
+void CSniperRifle::WeaponIdle()
 {
 	ResetEmptySound();
 
@@ -221,49 +182,33 @@ void CPython::WeaponIdle()
 	float flRand = UTIL_SharedRandomFloat(m_pPlayer->random_seed, 0, 1);
 	if (flRand <= 0.5)
 	{
-		iAnim = PYTHON_IDLE1;
-		m_flTimeWeaponIdle = (70.0 / 30.0);
-	}
-	else if (flRand <= 0.7)
-	{
-		iAnim = PYTHON_IDLE2;
-		m_flTimeWeaponIdle = (60.0 / 30.0);
-	}
-	else if (flRand <= 0.9)
-	{
-		iAnim = PYTHON_IDLE3;
-		m_flTimeWeaponIdle = (88.0 / 30.0);
+		iAnim = SNIPER_SLOWIDLE;
+		m_flTimeWeaponIdle = (101.0f / 23.0f);
 	}
 	else
 	{
-		iAnim = PYTHON_FIDGET;
-		m_flTimeWeaponIdle = (170.0 / 30.0);
+		iAnim = SNIPER_SLOWIDLE2;
+		m_flTimeWeaponIdle = (101.0f / 23.0f);
 	}
 
-	bool bUseScope = false;
-#ifdef CLIENT_DLL
-	bUseScope = bIsMultiplayer();
-#else
-	bUseScope = g_pGameRules->IsMultiplayer();
-#endif
-
-	SendWeaponAnim(iAnim, bUseScope ? 1 : 0);
+	SendWeaponAnim(iAnim, 0);
 }
 
-
-class CPythonAmmo : public CBasePlayerAmmo
+class CSniperRifleAmmo : public CBasePlayerAmmo
 {
 	void Spawn() override
 	{
 		Precache();
-		SET_MODEL(ENT(pev), "models/w_357ammobox.mdl");
+		SET_MODEL(ENT(pev), "models/w_m40a1clip.mdl");
 		CBasePlayerAmmo::Spawn();
 	}
+
 	void Precache() override
 	{
-		PRECACHE_MODEL("models/w_357ammobox.mdl");
+		PRECACHE_MODEL("models/w_m40a1clip.mdl");
 		PRECACHE_SOUND("items/9mmclip1.wav");
 	}
+
 	bool AddAmmo(CBaseEntity* pOther) override
 	{
 		if (pOther->GiveAmmo(AMMO_357BOX_GIVE, "357", _357_MAX_CARRY) != -1)
@@ -274,4 +219,5 @@ class CPythonAmmo : public CBasePlayerAmmo
 		return false;
 	}
 };
-LINK_ENTITY_TO_CLASS(ammo_357, CPythonAmmo);
+
+LINK_ENTITY_TO_CLASS(ammo_sniper, CSniperRifleAmmo);
