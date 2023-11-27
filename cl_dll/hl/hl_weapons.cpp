@@ -147,6 +147,21 @@ void HUD_PrepEntity(CBaseEntity* pEntity)
 	pEntity->Spawn();
 }
 
+CBasePlayerWeapon* GetLocalWeapon(int id)
+{
+	return g_pWpns[id];
+}
+
+void SetLocalBody(int id, int body)
+{
+	auto pWeapon = GetLocalWeapon(id);
+
+	if (pWeapon)
+	{
+		pWeapon->pev->body = body;
+	}
+}
+
 /*
 =====================
 CBaseEntity:: Killed

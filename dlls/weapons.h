@@ -77,6 +77,7 @@ public:
 #define DEAGLE_WEIGHT 15
 #define PYTHON_WEIGHT 15
 #define MP5_WEIGHT 15
+#define M249_WEIGHT 20
 #define SHOTGUN_WEIGHT 15
 #define CROSSBOW_WEIGHT 10
 #define RPG_WEIGHT 20
@@ -102,6 +103,7 @@ public:
 #define SNARK_MAX_CARRY 15
 #define HORNET_MAX_CARRY 8
 #define M203_GRENADE_MAX_CARRY 10
+#define M249_MAX_CARRY 250
 
 // the maximum amount of ammo each weapon's clip can hold
 #define WEAPON_NOCLIP -1
@@ -112,6 +114,7 @@ public:
 #define PYTHON_MAX_CLIP 6
 #define MP5_MAX_CLIP 30
 #define MP5_DEFAULT_AMMO 25
+#define M249_MAX_CLIP 100
 #define SHOTGUN_MAX_CLIP 8
 #define CROSSBOW_MAX_CLIP 5
 #define RPG_MAX_CLIP 1
@@ -131,6 +134,7 @@ public:
 #define MP5_DEFAULT_GIVE 25
 #define MP5_DEFAULT_AMMO 25
 #define MP5_M203_DEFAULT_GIVE 0
+#define M249_DEFAULT_GIVE 50
 #define SHOTGUN_DEFAULT_GIVE 12
 #define CROSSBOW_DEFAULT_GIVE 5
 #define RPG_DEFAULT_GIVE 1
@@ -1111,6 +1115,82 @@ enum handgrenade_e
 	HANDGRENADE_HOLSTER,
 	HANDGRENADE_DRAW
 };
+
+enum m249_e
+{
+	M249_SLOWIDLE = 0,
+	M249_IDLE2,
+	M249_RELOAD_START,
+	M249_RELOAD_END,
+	M249_HOLSTER,
+	M249_DRAW,
+	M249_SHOOT1,
+	M249_SHOOT2,
+	M249_SHOOT3
+};
+
+
+class CM249 : public CBasePlayerWeapon
+{
+public:
+	using BaseClass = CBasePlayerWeapon;
+
+#ifndef CLIENT_DLL
+	bool Save(CSave& save) override;
+	bool Restore(CRestore& restore) override;
+
+	static TYPEDESCRIPTION m_SaveData[];
+#endif
+
+	void Precache() override;
+	void Spawn() override;
+	bool Deploy() override;
+	void Holster() override;
+	void WeaponIdle() override;
+	void PrimaryAttack() override;
+	void Reload() override;
+	int iItemSlot() override;
+	bool GetItemInfo(ItemInfo* p) override;
+
+	// This method increments ammo when the player is wearing a backpack
+	// This was present in the op4-updated code as it also ported OpFor's CTF powerups!
+	// I'll leave these to you, you might find a way to implement "ammo recharging" :)
+	void IncrementAmmo(CBasePlayer* pPlayer); // override;
+
+	bool UseDecrement() override
+	{
+#if defined(CLIENT_WEAPONS)
+		return true;
+#else
+		return false;
+#endif
+	}
+
+	void GetWeaponData(weapon_data_t& data) override;
+
+	void SetWeaponData(const weapon_data_t& data) override;
+
+private:
+	static int RecalculateBody(int iClip);
+
+private:
+	unsigned short m_usFireM249;
+
+	float m_flNextAnimTime;
+
+	int m_iShell;
+
+	// Used to alternate between ejecting shells and links. - Solokiller
+	bool m_bAlternatingEject;
+	int m_iLink;
+	int m_iSmoke;
+	int m_iFire;
+
+	bool m_bReloading;
+	float m_flReloadStartTime;
+	float m_flReloadStart;
+};
+
 
 class CHandGrenade : public CBasePlayerWeapon
 {

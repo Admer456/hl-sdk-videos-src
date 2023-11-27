@@ -764,6 +764,73 @@ void EV_FireMP52(event_args_t* args)
 //		 MP5 END
 //======================
 
+// hl_weapons.cpp
+// Todo: move this thingy into a header
+extern void SetLocalBody(int id, int body);
+
+//======================
+//	    M249 START
+//======================
+void EV_FireM249(event_args_t* args)
+{
+	int iBody = args->iparam1;
+
+	const bool bAlternatingEject = args->bparam1 != 0;
+
+	Vector up, right, forward;
+
+	AngleVectors(args->angles, forward, right, up);
+
+	int iShell =
+		bAlternatingEject ? gEngfuncs.pEventAPI->EV_FindModelIndex("models/saw_link.mdl") : gEngfuncs.pEventAPI->EV_FindModelIndex("models/saw_shell.mdl");
+
+	if (EV_IsLocal(args->entindex))
+	{
+		SetLocalBody(WEAPON_M249, iBody);
+		EV_MuzzleFlash();
+		gEngfuncs.pEventAPI->EV_WeaponAnimation(gEngfuncs.pfnRandomLong(0, 2) + M249_SHOOT1, iBody);
+		V_PunchAxis(0, gEngfuncs.pfnRandomFloat(-2, 2));
+		V_PunchAxis(1, gEngfuncs.pfnRandomFloat(-1, 1));
+	}
+
+	Vector ShellVelocity;
+	Vector ShellOrigin;
+
+	EV_GetDefaultShellInfo(
+		args,
+		args->origin, args->velocity,
+		ShellVelocity,
+		ShellOrigin,
+		forward, right, up,
+		-28.0, 24.0, 4.0);
+
+	EV_EjectBrass(ShellOrigin, ShellVelocity, args->angles[1], iShell, TE_BOUNCE_SHELL);
+
+	gEngfuncs.pEventAPI->EV_PlaySound(
+		args->entindex,
+		args->origin, CHAN_WEAPON, "weapons/saw_fire1.wav",
+		VOL_NORM, ATTN_NORM, 0, 94 + gEngfuncs.pfnRandomLong(0, 15));
+
+	Vector vecSrc;
+
+	EV_GetGunPosition(args, vecSrc, args->origin);
+
+	Vector vecAiming = forward;
+
+	EV_HLDM_FireBullets(
+		args->entindex,
+		forward, right, up,
+		1,
+		vecSrc, vecAiming,
+		8192.0,
+		BULLET_PLAYER_9MM,
+		0, nullptr,
+		args->fparam1, args->fparam2);
+}
+//======================
+//		M249 END
+//======================
+
 //======================
 //	   PHYTON START
 //	     ( .357 )
