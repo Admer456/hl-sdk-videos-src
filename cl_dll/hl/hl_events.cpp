@@ -35,6 +35,7 @@ void Game_HookEvents()
 	gEngfuncs.pfnHookEvent("events/glock1.sc", EV_FireGlock1);
 	gEngfuncs.pfnHookEvent("events/glock2.sc", EV_FireGlock2);
 	gEngfuncs.pfnHookEvent("events/deagle.sc", EV_FireDeagle);
+	gEngfuncs.pfnHookEvent("events/mk23.sc", EV_FireMK23);
 	gEngfuncs.pfnHookEvent("events/shotgun1.sc", EV_FireShotGunSingle);
 	gEngfuncs.pfnHookEvent("events/shotgun2.sc", EV_FireShotGunDouble);
 	gEngfuncs.pfnHookEvent("events/mp5.sc", EV_FireMP5);

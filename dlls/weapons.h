@@ -74,6 +74,8 @@ public:
 // weapon weight factors (for auto-switching)   (-1 = noswitch)
 #define CROWBAR_WEIGHT 0
 #define GLOCK_WEIGHT 10
+#define MK23_WEIGHT 10
+#define MK23_AKIMBO_WEIGHT 15
 #define DEAGLE_WEIGHT 15
 #define SNIPER_WEIGHT 20
 #define PYTHON_WEIGHT 15
@@ -111,6 +113,8 @@ public:
 
 //#define CROWBAR_MAX_CLIP		WEAPON_NOCLIP
 #define GLOCK_MAX_CLIP 17
+#define MK23_MAX_CLIP 12
+#define MK23_AKIMBO_MAX_CLIP (MK23_MAX_CLIP * 2)
 #define DEAGLE_MAX_CLIP 7
 #define SNIPER_MAX_CLIP 5
 #define PYTHON_MAX_CLIP 6
@@ -131,6 +135,8 @@ public:
 
 // the default amount of ammo that comes with each gun when it spawns
 #define GLOCK_DEFAULT_GIVE 17
+#define MK23_DEFAULT_GIVE MK23_MAX_CLIP
+#define MK23_AKIMBO_DEFAULT_GIVE MK23_AKIMBO_MAX_CLIP
 #define DEAGLE_DEFAULT_GIVE 7
 #define SNIPER_DEFAULT_GIVE 5
 #define PYTHON_DEFAULT_GIVE 6
@@ -530,6 +536,96 @@ private:
 
 	unsigned short m_usFireGlock1;
 	unsigned short m_usFireGlock2;
+};
+
+enum mk23_e
+{
+	MK23_IDLE,
+	MK23_SHOOT_1,
+	MK23_SHOOT_2,
+	MK23_SHOOT_LAST,
+	MK23_DRAW,
+
+	// We're not gonna implement these
+	MK23_IDLE_TILTED, // it's p. specific
+	MK23_SHOOT_1_TILTED, // to The Specialists
+	MK23_SHOOT_2_TILTED, // You can do it
+	MK23_SHOOT_LAST_TILTED, // as homework!
+
+	MK23_CHANGE, // unused
+	MK23_REVERSE_CHANGE, // unused
+	
+	MK23_RELOAD,
+	MK23_RELOAD_TILTED // unused
+};
+
+class CMK23 : public CBasePlayerWeapon
+{
+public:
+	virtual void Spawn() override;
+	virtual void Precache() override;
+	int iItemSlot() override { return 1; }
+	virtual bool GetItemInfo(ItemInfo* p) override;
+
+ 	bool AddDuplicate(CBasePlayerItem* pItem) override;
+
+	virtual void PrimaryAttack() override;
+	virtual void SecondaryAttack() override;
+	void ShootSingle(int shootAnim, float yawPunch, bool leftSide = false);
+	virtual bool Deploy() override;
+	virtual void Reload() override;
+	virtual void WeaponIdle() override;
+
+	bool UseDecrement() override
+	{
+#if defined(CLIENT_WEAPONS)
+		return true;
+#else
+		return false;
+#endif
+	}
+
+protected:
+	unsigned short m_usFireMk23;
+};
+
+enum mk23_akimbo_e
+{
+	MK23_AKIMBO_IDLE,
+	MK23_AKIMBO_SHOOT_RIGHT_1,
+	MK23_AKIMBO_SHOOT_RIGHT_2,
+	MK23_AKIMBO_SHOOT_LEFT_1,
+	MK23_AKIMBO_SHOOT_LEFT_2,
+	MK23_AKIMBO_DRAW,
+
+	// We're not gonna implement these
+	MK23_AKIMBO_IDLE_TILTED, // it's p. specific
+	MK23_AKIMBO_SHOOT_RIGHT_1_TILTED, // to The Specialists
+	MK23_AKIMBO_SHOOT_RIGHT_2_TILTED, // You can do it as homework!
+	MK23_AKIMBO_SHOOT_LEFT1_TILTED,
+	MK23_AKIMBO_SHOOT_LEFT2_TILTED,
+	
+	MK23_AKIMBO_CHANGE, // unused
+	MK23_AKIMBO_REVERSE_CHANGE, // unused
+
+	MK23_AKIMBO_RELOAD,
+	MK23_AKIMBO_SHOOT_BOTH, // unused
+	MK23_AKIMBO_SHOOT_BOTH_LAST, // unused
+	MK23_AKIMBO_RELOAD_TILTED // unused
+};
+
+class CMK23Akimbo : public CMK23
+{
+public:
+	void Spawn() override;
+	void Precache() override;
+	bool GetItemInfo(ItemInfo* p) override;
+
+	void PrimaryAttack() override;
+	void SecondaryAttack() override;
+	bool Deploy() override;
+	void Reload() override;
+	void WeaponIdle() override;
 };
 
 enum deagle_e
@@ -1171,7 +1267,6 @@ enum m249_e
 	M249_SHOOT2,
 	M249_SHOOT3
 };
-
 
 class CM249 : public CBasePlayerWeapon
 {

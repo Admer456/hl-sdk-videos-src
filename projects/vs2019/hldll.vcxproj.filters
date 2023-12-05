@@ -411,6 +411,12 @@
     <ClCompile Include="..\..\dlls\machinegun.cpp">
       <Filter>Source Files\dlls</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\mk23.cpp">
+      <Filter>Source Files\dlls</Filter>
+    </ClCompile>
+    <ClCompile Include="..\..\dlls\mk23_akimbo.cpp">
+      <Filter>Source Files\dlls</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\dlls\doors.h">

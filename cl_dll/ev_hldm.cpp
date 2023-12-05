@@ -521,6 +521,73 @@ void EV_FireGlock2(event_args_t* args)
 //======================
 
 //======================
+//	   MK23 START
+//======================
+
+void EV_FireMK23( event_args_t* args )
+{
+	const int index = args->entindex;
+	Vector origin = args->origin;
+	Vector angles = args->angles;
+	Vector velocity = args->velocity;
+	const int animation = args->iparam1;
+	const float yawPunch = args->iparam2 / 100.0f;
+	const float shellEjectSide = args->bparam1 ? -1.0f : 1.0f;
+
+	Vector forward, right, up;
+	AngleVectors(angles, forward, right, up);
+
+	if (EV_IsLocal(args->entindex))
+	{
+		EV_MuzzleFlash();
+		// Here we utilise the animation sent to CMK23::ShootSingle
+		// This is so smart, isn't it?
+		gEngfuncs.pEventAPI->EV_WeaponAnimation(animation, 0);
+	
+		V_PunchAxis(0, -1.35);
+		V_PunchAxis(1, yawPunch);
+	}
+
+	// Gun position
+	Vector vecGunPosition;
+	EV_GetGunPosition(args, vecGunPosition, origin);
+
+	// Shell ejection
+	const int shell = gEngfuncs.pEventAPI->EV_FindModelIndex("models/shell.mdl");
+	Vector shellVelocity, shellOrigin;
+
+	EV_GetDefaultShellInfo(
+		args, origin, velocity,		// input
+		shellVelocity, shellOrigin,	// output
+		forward, right, up,			// more input
+		24.0f, -12.0f, 6.5f * shellEjectSide);
+
+	EV_EjectBrass(shellOrigin, shellVelocity, angles[YAW], shell, TE_BOUNCE_SHELL);
+
+	// Sound
+	gEngfuncs.pEventAPI->EV_PlaySound(
+		args->entindex,
+		origin, CHAN_WEAPON,					// position, channel
+		"weapons/pl_gun3.wav",					// sample
+		gEngfuncs.pfnRandomFloat(0.92, 1.0),	// volume
+		ATTN_NORM, 0,							// attenuation, flags
+		98 + gEngfuncs.pfnRandomLong(0, 3));	// pitch
+
+	// Client-simulated bullet firing
+	EV_HLDM_FireBullets(
+		args->entindex,
+		forward, right, up,
+		1,									// one bullet
+		vecGunPosition, forward, 8192.0f,	// aim info
+		BULLET_PLAYER_9MM, 0, nullptr,		// bullet info
+		args->fparam1, args->fparam2);		// spread
+}
+
+//======================
+//	    MK23 END
+//======================
+
+//======================
 //	    DEAGLE START
 //======================
 void EV_FireDeagle(event_args_t* args)

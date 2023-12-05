@@ -180,6 +180,8 @@ cmd /c ""$(ProjectDir)..\..\filecopy.bat" "$(OutDir)" "cl_dlls" "$(TargetName).p
     <ClCompile Include="..\..\dlls\handgrenade.cpp" />
     <ClCompile Include="..\..\dlls\hornetgun.cpp" />
     <ClCompile Include="..\..\dlls\machinegun.cpp" />
+    <ClCompile Include="..\..\dlls\mk23.cpp" />
+    <ClCompile Include="..\..\dlls\mk23_akimbo.cpp" />
     <ClCompile Include="..\..\dlls\mp5.cpp" />
     <ClCompile Include="..\..\dlls\python.cpp" />
     <ClCompile Include="..\..\dlls\rpg.cpp" />
