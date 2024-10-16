@@ -1076,7 +1076,8 @@ public:
 	void EXPORT FollowThink();
 	void EXPORT IgniteThink();
 	void EXPORT RocketTouch(CBaseEntity* pOther);
-	static CRpgRocket* CreateRpgRocket(Vector vecOrigin, Vector vecAngles, CBaseEntity* pOwner, CRpg* pLauncher);
+	static CRpgRocket* CreateRpgRocket(Vector vecOrigin, Vector vecAngles,
+		CBaseEntity* pOwner, CRpg* pLauncher);
 
 	int m_iTrail;
 	float m_flIgniteTime;

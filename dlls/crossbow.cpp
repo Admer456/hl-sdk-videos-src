@@ -110,11 +110,21 @@ void CCrossbowBolt::BoltTouch(CBaseEntity* pOther)
 
 		if (pOther->IsPlayer())
 		{
-			pOther->TraceAttack(pevOwner, gSkillData.plrDmgCrossbowClient, pev->velocity.Normalize(), &tr, DMG_NEVERGIB);
+			pOther->TraceAttack(
+				pevOwner,
+				gSkillData.plrDmgCrossbowClient,
+				pev->velocity.Normalize(),
+				&tr,
+				DMG_NEVERGIB);
 		}
 		else
 		{
-			pOther->TraceAttack(pevOwner, gSkillData.plrDmgCrossbowMonster, pev->velocity.Normalize(), &tr, DMG_BULLET | DMG_NEVERGIB);
+			pOther->TraceAttack(
+				pevOwner,
+				gSkillData.plrDmgCrossbowMonster,
+				pev->velocity.Normalize(),
+				&tr,
+				DMG_BULLET | DMG_NEVERGIB);
 		}
 
 		ApplyMultiDamage(pev, pevOwner);
@@ -133,15 +143,18 @@ void CCrossbowBolt::BoltTouch(CBaseEntity* pOther)
 
 		if (!g_pGameRules->IsMultiplayer())
 		{
+			// Killed() removes the entity
 			Killed(pev, GIB_NEVER);
 		}
 	}
 	else
 	{
-		EMIT_SOUND_DYN(ENT(pev), CHAN_BODY, "weapons/xbow_hit1.wav", RANDOM_FLOAT(0.95, 1.0), ATTN_NORM, 0, 98 + RANDOM_LONG(0, 7));
+		EMIT_SOUND_DYN(ENT(pev), CHAN_BODY, "weapons/xbow_hit1.wav",
+			RANDOM_FLOAT(0.95, 1.0), ATTN_NORM, 0, 98 + RANDOM_LONG(0, 7));
 
 		SetThink(&CCrossbowBolt::SUB_Remove);
-		pev->nextthink = gpGlobals->time; // this will get changed below if the bolt is allowed to stick in what it hit.
+		// this will get changed below if the bolt is allowed to stick in what it hit.
+		pev->nextthink = gpGlobals->time;
 
 		if (FClassnameIs(pOther->pev, "worldspawn"))
 		{

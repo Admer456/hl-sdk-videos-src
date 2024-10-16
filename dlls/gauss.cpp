@@ -55,7 +55,6 @@ void CGauss::Spawn()
 	FallInit(); // get ready to fall down.
 }
 
-
 void CGauss::Precache()
 {
 	PRECACHE_MODEL("models/w_gauss.mdl");
@@ -110,7 +109,6 @@ void CGauss::Holster()
 	SendWeaponAnim(GAUSS_HOLSTER);
 	m_fInAttack = 0;
 }
-
 
 void CGauss::PrimaryAttack()
 {
@@ -507,9 +505,6 @@ void CGauss::Fire(Vector vecOrigSrc, Vector vecDir, float flDamage)
 	// ALERT( at_console, "%d bytes\n", nTotal );
 }
 
-
-
-
 void CGauss::WeaponIdle()
 {
 	ResetEmptySound();
@@ -583,8 +578,6 @@ void CGauss::SendStopEvent(bool sendToHost)
 
 	PLAYBACK_EVENT_FULL(flags, m_pPlayer->edict(), m_usGaussFire, 0.01, m_pPlayer->pev->origin, m_pPlayer->pev->angles, 0.0, 0.0, 0, 0, 0, 1);
 }
-
-
 
 class CGaussAmmo : public CBasePlayerAmmo
 {
