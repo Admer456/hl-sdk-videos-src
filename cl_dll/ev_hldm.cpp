@@ -1535,6 +1535,33 @@ void EV_FireRpg(event_args_t* args)
 //======================
 
 //======================
+//GRENADE LAUNCHER START
+//======================
+
+void EV_FireGrenadeLauncher(event_args_t* args)
+{
+	int idx;
+	Vector origin;
+
+	idx = args->entindex;
+	VectorCopy(args->origin, origin);
+
+	gEngfuncs.pEventAPI->EV_PlaySound(idx, origin, CHAN_WEAPON, "weapons/rocketfire1.wav", 0.9, ATTN_NORM, 0, PITCH_NORM);
+	gEngfuncs.pEventAPI->EV_PlaySound(idx, origin, CHAN_ITEM, "weapons/glauncher.wav", 0.7, ATTN_NORM, 0, PITCH_NORM);
+
+	if (EV_IsLocal(idx))
+	{
+		gEngfuncs.pEventAPI->EV_WeaponAnimation(RPG_FIRE2, 0);
+
+		V_PunchAxis(0, -5.0);
+	}
+}
+
+//======================
+// GRENADE LAUNCHER END
+//======================
+
+//======================
 //	    EGON END
 //======================
 int g_fireAnims1[] = {EGON_FIRE1, EGON_FIRE2, EGON_FIRE3, EGON_FIRE4};

@@ -126,6 +126,7 @@ public:
 #define CROSSBOW_MAX_CLIP 5
 #define SAWBLADER_MAX_CLIP 1
 #define RPG_MAX_CLIP 1
+#define GRENADE_LAUNCHER_MAX_CLIP 4
 #define GAUSS_MAX_CLIP WEAPON_NOCLIP
 #define EGON_MAX_CLIP WEAPON_NOCLIP
 #define HORNETGUN_MAX_CLIP WEAPON_NOCLIP
@@ -1061,6 +1062,43 @@ public:
 
 private:
 	unsigned short m_usRpg;
+};
+
+class CGrenadeLauncher : public CBasePlayerWeapon
+{
+public:
+#ifndef CLIENT_DLL
+	bool Save(CSave& save) override;
+	bool Restore(CRestore& restore) override;
+	static TYPEDESCRIPTION m_SaveData[];
+#endif
+
+	void Spawn() override;
+	void Precache() override;
+	void Reload() override;
+	int iItemSlot() override { return 4; }
+	bool GetItemInfo(ItemInfo* p) override;
+
+	bool Deploy() override;
+	void Holster() override;
+
+	void PrimaryAttack() override;
+	void SecondaryAttack() override;
+	void WeaponIdle() override;
+	void LaunchGrenade( float intensity );
+
+	bool UseDecrement() override
+	{
+#if defined(CLIENT_WEAPONS)
+		return true;
+#else
+		return false;
+#endif
+	}
+
+private:
+	float m_ChargeTimer = 0.0f;
+	unsigned short m_usGrenLauncher;
 };
 
 class CRpgRocket : public CGrenade

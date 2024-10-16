@@ -1361,6 +1361,13 @@ TYPEDESCRIPTION CRpgRocket::m_SaveData[] =
 };
 IMPLEMENT_SAVERESTORE(CRpgRocket, CGrenade);
 
+TYPEDESCRIPTION CGrenadeLauncher::m_SaveData[] =
+	{
+		DEFINE_FIELD(CGrenadeLauncher, m_fInAttack, FIELD_INTEGER),
+		DEFINE_FIELD(CGrenadeLauncher, m_ChargeTimer, FIELD_FLOAT),
+};
+IMPLEMENT_SAVERESTORE(CGrenadeLauncher, CBasePlayerWeapon);
+
 TYPEDESCRIPTION CShotgun::m_SaveData[] =
 	{
 		DEFINE_FIELD(CShotgun, m_flNextReload, FIELD_TIME),
