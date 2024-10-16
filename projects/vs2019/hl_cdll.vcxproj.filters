@@ -336,6 +336,9 @@
     <ClCompile Include="..\..\dlls\mk23_akimbo.cpp">
       <Filter>Source Files\_hl\dlls</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\dlls\sawblader.cpp">
+      <Filter>Source Files\_hl\dlls</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\cl_dll\kbutton.h">

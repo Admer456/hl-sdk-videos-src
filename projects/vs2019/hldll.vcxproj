@@ -188,6 +188,7 @@ cmd /c ""$(ProjectDir)..\..\filecopy.bat" "$(OutDir)" "dlls" "$(TargetName).pdb"
     <ClCompile Include="..\..\dlls\roach.cpp" />
     <ClCompile Include="..\..\dlls\rpg.cpp" />
     <ClCompile Include="..\..\dlls\satchel.cpp" />
+    <ClCompile Include="..\..\dlls\sawblader.cpp" />
     <ClCompile Include="..\..\dlls\schedule.cpp" />
     <ClCompile Include="..\..\dlls\scientist.cpp" />
     <ClCompile Include="..\..\dlls\scripted.cpp" />
