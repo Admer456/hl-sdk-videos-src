@@ -1478,6 +1478,37 @@ void EV_FireCrossbow(event_args_t* args)
 //======================
 
 //======================
+//	 SAWBLADER START
+//======================
+
+void EV_FireSawblader(event_args_t* args)
+{
+	int idx;
+	Vector origin;
+
+	idx = args->entindex;
+	VectorCopy(args->origin, origin);
+
+	gEngfuncs.pEventAPI->EV_PlaySound(idx, origin, CHAN_WEAPON, "weapons/xbow_fire1.wav", 1, ATTN_NORM, 0, 93 + gEngfuncs.pfnRandomLong(0, 15));
+	gEngfuncs.pEventAPI->EV_PlaySound(idx, origin, CHAN_ITEM, "weapons/xbow_reload1.wav", gEngfuncs.pfnRandomFloat(0.95, 1.0), ATTN_NORM, 0, 93 + gEngfuncs.pfnRandomLong(0, 15));
+
+	// Only play the weapon anims if I shot it.
+	if (EV_IsLocal(idx))
+	{
+		if (0 != args->iparam1)
+			gEngfuncs.pEventAPI->EV_WeaponAnimation(SAWBLADER_FIRE1, 0);
+		else
+			gEngfuncs.pEventAPI->EV_WeaponAnimation(SAWBLADER_FIRE3, 0);
+
+		V_PunchAxis(0, -2.0);
+	}
+}
+
+//======================
+//	  SAWBLADER END
+//======================
+
+//======================
 //	    RPG START
 //======================
 void EV_FireRpg(event_args_t* args)

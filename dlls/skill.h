@@ -102,6 +102,8 @@ struct skilldata_t
 	float plrDmgBuckshot;
 	float plrDmgCrossbowClient;
 	float plrDmgCrossbowMonster;
+	float plrDmgSawbladeClient;
+	float plrDmgSawbladeMonster;
 	float plrDmgRPG;
 	float plrDmgGauss;
 	float plrDmgEgonNarrow;

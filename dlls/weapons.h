@@ -83,6 +83,7 @@ public:
 #define M249_WEIGHT 20
 #define SHOTGUN_WEIGHT 15
 #define CROSSBOW_WEIGHT 10
+#define SAWBLADER_WEIGHT 10
 #define RPG_WEIGHT 20
 #define GAUSS_WEIGHT 20
 #define EGON_WEIGHT 20
@@ -123,6 +124,7 @@ public:
 #define M249_MAX_CLIP 100
 #define SHOTGUN_MAX_CLIP 8
 #define CROSSBOW_MAX_CLIP 5
+#define SAWBLADER_MAX_CLIP 1
 #define RPG_MAX_CLIP 1
 #define GAUSS_MAX_CLIP WEAPON_NOCLIP
 #define EGON_MAX_CLIP WEAPON_NOCLIP
@@ -146,6 +148,7 @@ public:
 #define M249_DEFAULT_GIVE 50
 #define SHOTGUN_DEFAULT_GIVE 12
 #define CROSSBOW_DEFAULT_GIVE 5
+#define SAWBLADER_DEFAULT_GIVE 1
 #define RPG_DEFAULT_GIVE 1
 #define GAUSS_DEFAULT_GIVE 20
 #define EGON_DEFAULT_GIVE 20
@@ -164,6 +167,7 @@ public:
 #define AMMO_M203BOX_GIVE 2
 #define AMMO_BUCKSHOTBOX_GIVE 12
 #define AMMO_CROSSBOWCLIP_GIVE CROSSBOW_MAX_CLIP
+#define AMMO_SAWBLADERCLIP_GIVE SAWBLADER_MAX_CLIP
 #define AMMO_RPGCLIP_GIVE RPG_MAX_CLIP
 #define AMMO_URANIUMBOX_GIVE 20
 #define AMMO_SNARKBOX_GIVE 5
@@ -882,6 +886,50 @@ public:
 private:
 	unsigned short m_usCrossbow;
 	unsigned short m_usCrossbow2;
+};
+
+enum sawblader_e
+{
+	SAWBLADER_IDLE1 = 0, // full
+	SAWBLADER_IDLE2,	// empty
+	SAWBLADER_FIDGET1,	// full
+	SAWBLADER_FIDGET2,	// empty
+	SAWBLADER_FIRE1,	// full
+	SAWBLADER_FIRE2,	// reload
+	SAWBLADER_FIRE3,	// empty
+	SAWBLADER_RELOAD,	// from empty
+	SAWBLADER_DRAW1,	// full
+	SAWBLADER_DRAW2,	// empty
+	SAWBLADER_HOLSTER1,	// full
+	SAWBLADER_HOLSTER2,	// empty
+};
+
+class CSawblader : public CBasePlayerWeapon
+{
+public:
+	void Spawn() override;
+	void Precache() override;
+	int iItemSlot() override { return 3; }
+	bool GetItemInfo(ItemInfo* p) override;
+
+	void FireSawblade();
+	void PrimaryAttack() override;
+	bool Deploy() override;
+	void Holster() override;
+	void Reload() override;
+	void WeaponIdle() override;
+
+	bool UseDecrement() override
+	{
+#if defined(CLIENT_WEAPONS)
+		return true;
+#else
+		return false;
+#endif
+	}
+
+private:
+	unsigned short m_usSawblader;
 };
 
 enum shotgun_e

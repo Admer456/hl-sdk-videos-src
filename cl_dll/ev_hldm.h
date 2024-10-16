@@ -29,6 +29,7 @@ void EV_SpinGauss(event_args_t* args);
 void EV_Crowbar(event_args_t* args);
 void EV_FireCrossbow(event_args_t* args);
 void EV_FireCrossbow2(event_args_t* args);
+void EV_FireSawblader(event_args_t* args);
 void EV_FireRpg(event_args_t* args);
 void EV_EgonFire(event_args_t* args);
 void EV_EgonStop(event_args_t* args);
