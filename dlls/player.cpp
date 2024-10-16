@@ -3432,6 +3432,23 @@ void CBasePlayer::ImpulseCommands()
 	pev->impulse = 0;
 }
 
+static void CheatImpulse101( CBasePlayer* player )
+{
+	player->GiveNamedItem("item_suit");
+	player->GiveNamedItem("item_battery");
+	player->GiveNamedItem("ammo_9mmclip");
+	player->GiveNamedItem("ammo_buckshot");
+	player->GiveNamedItem("ammo_9mmAR");
+	player->GiveNamedItem("ammo_ARgrenades");
+	player->GiveNamedItem("ammo_357");
+	player->GiveNamedItem("ammo_rpgclip");
+
+	for (const CWeaponRegistry* node = CWeaponRegistry::GetHead(); node != nullptr; node = node->GetNext())
+	{
+		player->GiveNamedItem(node->GetMapName());
+	}
+}
+
 //=========================================================
 //=========================================================
 void CBasePlayer::CheatImpulseCommands(int iImpulse)
@@ -3464,31 +3481,7 @@ void CBasePlayer::CheatImpulseCommands(int iImpulse)
 
 	case 101:
 		gEvilImpulse101 = true;
-		GiveNamedItem("item_suit");
-		GiveNamedItem("item_battery");
-		GiveNamedItem("weapon_crowbar");
-		GiveNamedItem("weapon_9mmhandgun");
-		GiveNamedItem("ammo_9mmclip");
-		GiveNamedItem("weapon_shotgun");
-		GiveNamedItem("ammo_buckshot");
-		GiveNamedItem("weapon_9mmAR");
-		GiveNamedItem("ammo_9mmAR");
-		GiveNamedItem("ammo_ARgrenades");
-		GiveNamedItem("weapon_handgrenade");
-		GiveNamedItem("weapon_tripmine");
-		GiveNamedItem("weapon_357");
-		GiveNamedItem("ammo_357");
-		GiveNamedItem("weapon_crossbow");
-		GiveNamedItem("ammo_crossbow");
-		GiveNamedItem("weapon_egon");
-		GiveNamedItem("weapon_gauss");
-		GiveNamedItem("ammo_gaussclip");
-		GiveNamedItem("weapon_rpg");
-		GiveNamedItem("ammo_rpgclip");
-		GiveNamedItem("weapon_satchel");
-		GiveNamedItem("weapon_snark");
-		GiveNamedItem("weapon_hornetgun");
-
+		CheatImpulse101(this);
 		gEvilImpulse101 = false;
 		break;
 
