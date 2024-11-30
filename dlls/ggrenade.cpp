@@ -183,6 +183,13 @@ void CGrenade::Detonate()
 	UTIL_TraceLine(vecSpot, vecSpot + Vector(0, 0, -40), ignore_monsters, ENT(pev), &tr);
 
 	Explode(&tr, DMG_BLAST);
+
+	if ( m_IndicatorSprite != nullptr )
+	{
+		STOP_SOUND( edict(), CHAN_STATIC, "weapons/mine_charge.wav" );
+		UTIL_Remove( m_IndicatorSprite );
+		m_IndicatorSprite = nullptr;
+	}
 }
 
 
@@ -220,6 +227,57 @@ void CGrenade::DangerSoundThink()
 	}
 }
 
+void CGrenade::ProximityThink()
+{
+	pev->nextthink = gpGlobals->time + 0.8f;
+	
+	switch ( m_ProximityStage )
+	{
+		case ProximityStage::None:
+			UTIL_Remove( this );
+			break;
+		
+		case ProximityStage::Arming:
+			// The grenade is fully armed only when settled
+			if ( pev->velocity.Length() < 20.0f )
+			{
+				m_IndicatorSprite->pev->renderamt = 255.0f;
+				m_IndicatorSprite->pev->rendercolor = Vector( 255, 255, 0 );
+				m_IndicatorSprite->pev->origin = pev->origin + Vector( 0, 0, 16 );
+				
+				EMIT_SOUND( edict(), CHAN_STATIC, "weapons/mine_deploy.wav", 0.33f, ATTN_IDLE );
+				UTIL_Sparks( pev->origin );
+
+				m_ProximityStage = ProximityStage::Active;
+			}
+			break;
+
+		case ProximityStage::Active:
+			m_IndicatorSprite->pev->origin = pev->origin + Vector( 0, 0, 16 );
+
+			// The grenade detonates only when its owner is far away
+			if ( (pev->origin - pev->owner->v.origin).Length() > 200.0f )
+			{
+				m_IndicatorSprite->pev->rendercolor = Vector( 255, 100, 0 );
+
+				EMIT_SOUND_DYN( edict(), CHAN_STATIC, "weapons/mine_charge.wav", 1.0f, ATTN_IDLE, 0, 200 );
+
+				m_ProximityStage = ProximityStage::PreDetonate;
+			}
+			else
+			{
+				m_IndicatorSprite->pev->rendercolor = Vector( 0, 255, 0 );
+				EMIT_SOUND( edict(), CHAN_STATIC, "weapons/mine_activate.wav", 0.33f, ATTN_IDLE );
+			}
+			break;
+
+		case ProximityStage::PreDetonate:
+			m_IndicatorSprite->pev->rendercolor = Vector( 255, 0, 0 );
+			UTIL_Sparks( pev->origin );
+			SetThink( &CGrenade::Detonate );
+			break;
+	}
+}
 
 void CGrenade::BounceTouch(CBaseEntity* pOther)
 {
@@ -392,6 +450,38 @@ CGrenade* CGrenade::ShootContact(entvars_t* pevOwner, Vector vecStart, Vector ve
 	return pGrenade;
 }
 
+CGrenade* CGrenade::ShootProximity(CBaseEntity* pOwner, Vector vecStart, Vector vecVelocity)
+{
+	CGrenade* pGrenade = GetClassPtr((CGrenade*)NULL);
+	pGrenade->Spawn();
+	UTIL_SetOrigin(pGrenade->pev, vecStart);
+	pGrenade->pev->velocity = vecVelocity;
+	pGrenade->pev->angles = UTIL_VecToAngles(pGrenade->pev->velocity);
+	pGrenade->pev->owner = pOwner->edict();
+
+	pGrenade->SetTouch(&CGrenade::BounceTouch); // Bounce if touched
+
+	pGrenade->SetThink(&CGrenade::ProximityThink);
+	pGrenade->pev->nextthink = gpGlobals->time + 4.0f;
+	
+	pGrenade->pev->sequence = RANDOM_LONG(3, 6);
+	pGrenade->pev->framerate = 1.0;
+
+	// Tumble through the air
+	pGrenade->pev->avelocity.z = 400;
+
+	pGrenade->pev->gravity = 0.5;
+	pGrenade->pev->friction = 0.8;
+
+	pGrenade->pev->dmg = 100;
+
+	pGrenade->m_ProximityStage = ProximityStage::Arming;
+	
+	auto* sprite = pGrenade->m_IndicatorSprite = CSprite::SpriteCreate( "sprites/flare3.spr", pGrenade->pev->origin, false );
+	sprite->SetTransparency( kRenderTransAdd, 255, 255, 255, 0, kRenderFxFlickerFast );
+	
+	return pGrenade;
+}
 
 CGrenade* CGrenade::ShootTimed(entvars_t* pevOwner, Vector vecStart, Vector vecVelocity, float time)
 {

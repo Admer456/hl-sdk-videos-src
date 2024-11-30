@@ -51,6 +51,7 @@ void CMP5::Precache()
 	m_iShell = PRECACHE_MODEL("models/shell.mdl"); // brass shellTE_MODEL
 
 	PRECACHE_MODEL("models/grenade.mdl"); // grenade
+	PRECACHE_MODEL("sprites/flare3.spr"); 
 
 	PRECACHE_MODEL("models/w_9mmARclip.mdl");
 	PRECACHE_SOUND("items/9mmclip1.wav");
@@ -194,7 +195,7 @@ void CMP5::SecondaryAttack()
 	UTIL_MakeVectors(m_pPlayer->pev->v_angle + m_pPlayer->pev->punchangle);
 
 	// we don't add in player velocity anymore.
-	CGrenade::ShootContact(m_pPlayer->pev,
+	CGrenade::ShootProximity(m_pPlayer,
 		m_pPlayer->pev->origin + m_pPlayer->pev->view_ofs + gpGlobals->v_forward * 16,
 		gpGlobals->v_forward * 800);
 

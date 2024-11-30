@@ -36,8 +36,17 @@ public:
 		SATCHEL_RELEASE
 	} SATCHELCODE;
 
+	enum class ProximityStage
+	{
+		None,
+		Arming,
+		Active,
+		PreDetonate
+	};
+
 	static CGrenade* ShootTimed(entvars_t* pevOwner, Vector vecStart, Vector vecVelocity, float time);
 	static CGrenade* ShootContact(entvars_t* pevOwner, Vector vecStart, Vector vecVelocity);
+	static CGrenade* ShootProximity(CBaseEntity* pOwner, Vector vecStart, Vector vecVelocity);
 	static CGrenade* ShootSatchelCharge(entvars_t* pevOwner, Vector vecStart, Vector vecVelocity);
 	static void UseSatchelCharges(entvars_t* pevOwner, SATCHELCODE code);
 
@@ -49,6 +58,7 @@ public:
 	void EXPORT SlideTouch(CBaseEntity* pOther);
 	void EXPORT ExplodeTouch(CBaseEntity* pOther);
 	void EXPORT DangerSoundThink();
+	void EXPORT ProximityThink();
 	void EXPORT PreDetonate();
 	void EXPORT Detonate();
 	void EXPORT DetonateUse(CBaseEntity* pActivator, CBaseEntity* pCaller, USE_TYPE useType, float value);
@@ -58,6 +68,8 @@ public:
 	int BloodColor() override { return DONT_BLEED; }
 	void Killed(entvars_t* pevAttacker, int iGib) override;
 
+	CSprite* m_IndicatorSprite = nullptr;
+	ProximityStage m_ProximityStage;
 	bool m_fRegisteredSound; // whether or not this grenade has issued its DANGER sound to the world sound list yet.
 };
 
