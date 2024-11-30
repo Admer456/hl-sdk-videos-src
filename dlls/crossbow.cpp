@@ -39,8 +39,11 @@ class CCrossbowBolt : public CBaseEntity
 	void EXPORT BubbleThink();
 	void EXPORT BoltTouch(CBaseEntity* pOther);
 	void EXPORT ExplodeThink();
+	void EXPORT BleedThink();
 
 	int m_iTrail;
+    int m_BleedTries = 10;
+    EHANDLE m_Victim;
 
 public:
 	static CCrossbowBolt* BoltCreate();
@@ -112,7 +115,7 @@ void CCrossbowBolt::BoltTouch(CBaseEntity* pOther)
 		{
 			pOther->TraceAttack(
 				pevOwner,
-				gSkillData.plrDmgCrossbowClient,
+				gSkillData.plrDmgCrossbowClient / 4.0f,
 				pev->velocity.Normalize(),
 				&tr,
 				DMG_NEVERGIB);
@@ -121,7 +124,7 @@ void CCrossbowBolt::BoltTouch(CBaseEntity* pOther)
 		{
 			pOther->TraceAttack(
 				pevOwner,
-				gSkillData.plrDmgCrossbowMonster,
+				gSkillData.plrDmgCrossbowMonster / 4.0f,
 				pev->velocity.Normalize(),
 				&tr,
 				DMG_BULLET | DMG_NEVERGIB);
@@ -141,11 +144,15 @@ void CCrossbowBolt::BoltTouch(CBaseEntity* pOther)
 			break;
 		}
 
-		if (!g_pGameRules->IsMultiplayer())
-		{
-			// Killed() removes the entity
-			Killed(pev, GIB_NEVER);
-		}
+		// Keep track of who we just hit and go invisible
+		m_Victim = pOther;
+		pev->effects |= EF_NODRAW;
+
+		// Start bleeding
+		SetThink( &CCrossbowBolt::BleedThink );
+		pev->nextthink = gpGlobals->time + 2.0f;
+
+		return;
 	}
 	else
 	{
@@ -232,6 +239,28 @@ void CCrossbowBolt::ExplodeThink()
 
 	UTIL_Remove(this);
 }
+
+void CCrossbowBolt::BleedThink()
+{
+	pev->nextthink = gpGlobals->time + 2.0f;
+	m_BleedTries--;
+
+	// Make sure 1) the entity is alive 2) we have enough poison
+	if ( nullptr != m_Victim && m_Victim->IsAlive() && m_BleedTries >= 0 )
+	{
+		// Hurt the NPC
+		m_Victim->TakeDamage( pev, VARS( pev->owner ), 5.0f, DMG_POISON );
+
+		// Update position to the affected NPC and play a sound there
+		UTIL_SetOrigin( pev, m_Victim->pev->origin );
+		EMIT_SOUND( ENT( pev ), CHAN_BODY, "weapons/xbow_hitbod1.wav", 1, ATTN_NORM );
+	}
+	else
+	{
+		UTIL_Remove( this );
+	}
+}
+
 #endif
 
 LINK_WEAPON_TO_CLASS(weapon_crossbow, CCrossbow);
