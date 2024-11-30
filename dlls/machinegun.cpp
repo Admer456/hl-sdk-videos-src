@@ -310,7 +310,7 @@ int CM249::RecalculateBody(int iClip)
 
 int CM249::iItemSlot()
 {
-	return 4;
+	return 5;
 }
 
 bool CM249::GetItemInfo(ItemInfo* p)
