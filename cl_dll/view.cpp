@@ -649,7 +649,7 @@ void V_CalcNormalRefdef(struct ref_params_s* pparams)
 
 	// Let the viewmodel shake at about 10% of the amplitude
 	gEngfuncs.V_ApplyShake(view->origin, view->angles, 0.9);
-
+    
 	for (i = 0; i < 3; i++)
 	{
 		view->origin[i] += bob * 0.4 * pparams->forward[i];
