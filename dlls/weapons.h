@@ -141,6 +141,7 @@ public:
 #define GRENADE_LAUNCHER_MAX_CLIP 4
 #define GAUSS_MAX_CLIP WEAPON_NOCLIP
 #define EGON_MAX_CLIP WEAPON_NOCLIP
+#define FLAMETHROWER_MAX_CLIP WEAPON_NOCLIP
 #define HORNETGUN_MAX_CLIP WEAPON_NOCLIP
 #define HANDGRENADE_MAX_CLIP WEAPON_NOCLIP
 #define SATCHEL_MAX_CLIP WEAPON_NOCLIP
@@ -165,6 +166,7 @@ public:
 #define RPG_DEFAULT_GIVE 1
 #define GAUSS_DEFAULT_GIVE 20
 #define EGON_DEFAULT_GIVE 20
+#define FLAMETHROWER_DEFAULT_GIVE 100
 #define HANDGRENADE_DEFAULT_GIVE 5
 #define SATCHEL_DEFAULT_GIVE 1
 #define TRIPMINE_DEFAULT_GIVE 1
@@ -1303,6 +1305,43 @@ private:
 	bool m_deployed;
 
 	unsigned short m_usEgonFire;
+};
+
+enum flamethrower_e
+{
+	FLAMETHROWER_IDLE1 = 0,
+	FLAMETHROWER_FIDGET1,
+	FLAMETHROWER_ALTFIREON,
+	FLAMETHROWER_ALTFIRECYCLE,
+	FLAMETHROWER_ALTFIREOFF,
+	FLAMETHROWER_FIRE1,
+	FLAMETHROWER_FIRE2,
+	FLAMETHROWER_FIRE3,
+	FLAMETHROWER_FIRE4,
+	FLAMETHROWER_DRAW,
+	FLAMETHROWER_HOLSTER
+};
+
+class CFlamethrower : public CBasePlayerWeapon
+{
+public:
+	void Spawn() override;
+	void Precache() override;
+	int iItemSlot() override { return 3; }
+	bool GetItemInfo(ItemInfo* p) override;
+
+	void PrimaryAttack() override;
+	bool Deploy() override;
+	void WeaponIdle() override;
+
+	bool UseDecrement() override
+	{
+#if defined(CLIENT_WEAPONS)
+		return true;
+#else
+		return false;
+#endif
+	}
 };
 
 enum hgun_e
