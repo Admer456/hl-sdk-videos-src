@@ -1394,6 +1394,62 @@ private:
 	float m_Distance = 0.0f;
 };
 
+enum physgun_e
+{
+	PHYSGUN_IDLE1 = 0,
+	PHYSGUN_IDLE2,
+	PHYSGUN_FIDGET1,
+	PHYSGUN_FIDGET2,
+	PHYSGUN_FIRE1,
+	PHYSGUN_FIRE2,
+	PHYSGUN_FIRE3,
+	PHYSGUN_RELOAD,
+	PHYSGUN_DRAW1,
+	PHYSGUN_DRAW2,
+	PHYSGUN_HOLSTER1,
+	PHYSGUN_HOLSTER2,
+};
+
+class CPhysgun : public CBasePlayerWeapon
+{
+public:
+	void Spawn() override;
+	void Precache() override;
+	int iItemSlot() override { return 3; }
+	bool GetItemInfo(ItemInfo* p) override;
+
+	void PrimaryAttack() override;
+	void SecondaryAttack() override;
+	void Reload() override;
+	bool Deploy() override;
+	void WeaponIdle() override;
+
+	Vector GetGunPosition() const;
+	Vector GetPlayerAim() const;
+
+	bool UseDecrement() override
+	{
+#if defined(CLIENT_WEAPONS)
+		return true;
+#else
+		return false;
+#endif
+	}
+
+private:
+	void ForcePush( CBaseEntity* entity );
+	void ForceMove( CBaseEntity* entity );
+	
+private:
+#ifndef CLIENT_DLL
+	EHANDLE m_Entity = {};
+#endif
+	float m_Distance = 0.0f;
+	// True = behave like GMod physgun
+	// False = behave like HL2 gravitygun
+	bool m_PhysMode = false;
+};
+
 enum hgun_e
 {
 	HGUN_IDLE1 = 0,
