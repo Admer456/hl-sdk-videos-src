@@ -1344,6 +1344,58 @@ public:
 	}
 };
 
+enum telepearl_e
+{
+	PEARL_IDLE = 0,
+	PEARL_FIDGET,
+	PEARL_PINPULL,
+	PEARL_THROW1, // toss
+	PEARL_THROW2, // medium
+	PEARL_THROW3, // hard
+	PEARL_HOLSTER,
+	PEARL_DRAW
+};
+
+class CTelePearl : public CBasePlayerWeapon
+{
+public:
+	void Spawn() override;
+	void Precache() override;
+	int iItemSlot() override { return 3; }
+	bool GetItemInfo(ItemInfo* p) override;
+
+	void PrimaryAttack() override;
+	void SecondaryAttack() override;
+	bool Deploy() override;
+	void WeaponIdle() override;
+
+	void ThrowPearl( bool itemHunt );
+	
+	bool UseDecrement() override
+	{
+#if defined(CLIENT_WEAPONS)
+		return true;
+#else
+		return false;
+#endif
+	}
+};
+
+enum grapple_e
+{
+	GRAPPLE_IDLE1 = 0,
+	GRAPPLE_IDLE2,
+	GRAPPLE_FIDGET1,
+	GRAPPLE_FIDGET2,
+	GRAPPLE_FIRE1,
+	GRAPPLE_FIRE2,
+	GRAPPLE_FIRE3,
+	GRAPPLE_RELOAD,
+	GRAPPLE_DRAW1,
+	GRAPPLE_DRAW2,
+	GRAPPLE_HOLSTER1,
+	GRAPPLE_HOLSTER2,
+};
 
 class CGrapple : public CBasePlayerWeapon
 {
