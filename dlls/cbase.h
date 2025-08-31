@@ -687,7 +687,7 @@ public:
 // It will allocate the class and entity if necessary
 //
 template <class T>
-T* GetClassPtr(T* a)
+T* GetClassPtr(T* a = nullptr)
 {
 	entvars_t* pev = (entvars_t*)a;
 

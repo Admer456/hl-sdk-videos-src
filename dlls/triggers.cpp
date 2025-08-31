@@ -233,13 +233,9 @@ bool CTriggerRelay::KeyValue(KeyValueData* pkvd)
 	return CBaseDelay::KeyValue(pkvd);
 }
 
-
 void CTriggerRelay::Spawn()
 {
 }
-
-
-
 
 void CTriggerRelay::Use(CBaseEntity* pActivator, CBaseEntity* pCaller, USE_TYPE useType, float value)
 {
@@ -247,7 +243,6 @@ void CTriggerRelay::Use(CBaseEntity* pActivator, CBaseEntity* pCaller, USE_TYPE 
 	if ((pev->spawnflags & SF_RELAY_FIREONCE) != 0)
 		UTIL_Remove(this);
 }
-
 
 //**********************************************************
 // The Multimanager Entity - when fired, will fire up to 16 targets

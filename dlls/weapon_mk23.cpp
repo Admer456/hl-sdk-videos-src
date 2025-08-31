@@ -36,8 +36,6 @@ bool CMK23::GetItemInfo(ItemInfo* p)
 	p->pszAmmo2 = NULL;
 	p->iMaxAmmo2 = -1;
 	p->iMaxClip = MK23_MAX_CLIP;
-	p->iSlot = 1;
-	p->iPosition = 3;
 	p->iFlags = 0;
 	p->iId = m_iId = WEAPON_MK23;
 	p->iWeight = MK23_WEIGHT;

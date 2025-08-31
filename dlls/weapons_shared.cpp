@@ -207,6 +207,12 @@ void CBasePlayerWeapon::ItemPostFrame()
 	}
 }
 
+void CBasePlayerWeapon::FinishItemInfo( ItemInfo* p )
+{
+	p->iPosition = HUD_GetWeaponPosition( p->iId );
+	p->iSlot = HUD_GetWeaponSlot( p->iId );
+}
+
 void CBasePlayer::SelectLastItem()
 {
 	if (!m_pLastItem)

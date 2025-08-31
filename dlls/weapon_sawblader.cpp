@@ -267,8 +267,6 @@ bool CSawblader::GetItemInfo(ItemInfo* p)
 	p->pszAmmo2 = NULL;
 	p->iMaxAmmo2 = -1;
 	p->iMaxClip = SAWBLADER_MAX_CLIP;
-	p->iSlot = 2;
-	p->iPosition = 3;
 	p->iId = WEAPON_SAWBLADER;
 	p->iFlags = 0;
 	p->iWeight = SAWBLADER_WEIGHT;

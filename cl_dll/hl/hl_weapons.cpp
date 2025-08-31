@@ -125,7 +125,7 @@ void HUD_PrepWeapon(class CWeaponRegistry* pReg, CBasePlayer* pWeaponOwner)
 	{
 		ItemInfo info;
 		pEntity->m_pPlayer = pWeaponOwner;
-		pEntity->GetItemInfo(&info);
+		pEntity->GetFullItemInfo(&info);
 		g_pWpns[info.iId] = pEntity;
 	}
 }

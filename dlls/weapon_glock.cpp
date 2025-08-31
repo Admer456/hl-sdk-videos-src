@@ -63,8 +63,6 @@ bool CGlock::GetItemInfo(ItemInfo* p)
 	p->pszAmmo2 = NULL;
 	p->iMaxAmmo2 = -1;
 	p->iMaxClip = GLOCK_MAX_CLIP;
-	p->iSlot = 1;
-	p->iPosition = 0;
 	p->iFlags = 0;
 	p->iId = m_iId = WEAPON_GLOCK;
 	p->iWeight = GLOCK_WEIGHT;
@@ -100,8 +98,6 @@ void CGlock::GlockFire(float flSpread, float flCycleTime, bool fUseAutoAim)
 		return;
 	}
 
-	// pev->buttons & IN_ATTACK is *already* true
-	// because PrimaryAttack is even BEING called
 	if (m_pPlayer->m_afButtonLast & IN_ATTACK)
 	{
 		return;

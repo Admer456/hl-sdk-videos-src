@@ -9,6 +9,10 @@
 
 #pragma once
 
+#include "Platform.h"
+#include "vector.h"
+#include "const.h"
+
 #define STUDIO_RENDER 1
 #define STUDIO_EVENTS 2
 

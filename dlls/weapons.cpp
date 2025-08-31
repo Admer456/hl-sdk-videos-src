@@ -233,7 +233,7 @@ void UTIL_PrecacheOtherWeapon(const char* szClassname)
 		ItemInfo II;
 		pEntity->Precache();
 		memset(&II, 0, sizeof II);
-		if (((CBasePlayerItem*)pEntity)->GetItemInfo(&II))
+		if (((CBasePlayerWeapon*)pEntity)->GetFullItemInfo(&II))
 		{
 			CBasePlayerItem::ItemInfoArray[II.iId] = II;
 

@@ -69,8 +69,6 @@ bool CGrenadeLauncher::GetItemInfo(ItemInfo* p)
 	p->pszAmmo2 = NULL;
 	p->iMaxAmmo2 = -1;
 	p->iMaxClip = GRENADE_LAUNCHER_MAX_CLIP;
-	p->iSlot = 3;
-	p->iPosition = 4;
 	p->iId = m_iId = WEAPON_GRENADE_LAUNCHER;
 	p->iFlags = 0;
 	p->iWeight = RPG_WEIGHT;

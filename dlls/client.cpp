@@ -1612,7 +1612,7 @@ int GetWeaponData(struct edict_s* player, struct weapon_data_s* info)
 				{
 					// Get The ID.
 					memset(&II, 0, sizeof(II));
-					gun->GetItemInfo(&II);
+					gun->GetFullItemInfo(&II);
 
 					if (II.iId >= 0 && II.iId < MAX_WEAPONS)
 					{
@@ -1742,7 +1742,7 @@ void UpdateClientData(const edict_t* ent, int sendweapons, struct clientdata_s* 
 				{
 					ItemInfo II;
 					memset(&II, 0, sizeof(II));
-					gun->GetItemInfo(&II);
+					gun->GetFullItemInfo(&II);
 
 					cd->m_iId = II.iId;
 

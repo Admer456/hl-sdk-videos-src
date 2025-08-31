@@ -176,7 +176,9 @@ cmd /c ""$(ProjectDir)..\..\filecopy.bat" "$(OutDir)" "cl_dlls" "$(TargetName).p
     <ClCompile Include="..\..\dlls\weapon_crowbar.cpp" />
     <ClCompile Include="..\..\dlls\weapon_deagle.cpp" />
     <ClCompile Include="..\..\dlls\weapon_egon.cpp" />
-    <ClCompile Include="..\..\dlls\gauss.cpp" />
+    <ClCompile Include="..\..\dlls\weapon_gauss.cpp" />
+    <ClCompile Include="..\..\dlls\weapon_flamethrower.cpp" />
+    <ClCompile Include="..\..\dlls\weapon_grapple.cpp" />
     <ClCompile Include="..\..\dlls\weapon_grenlauncher.cpp" />
     <ClCompile Include="..\..\dlls\weapon_handgrenade.cpp" />
     <ClCompile Include="..\..\dlls\weapon_hornetgun.cpp" />
@@ -184,6 +186,7 @@ cmd /c ""$(ProjectDir)..\..\filecopy.bat" "$(OutDir)" "cl_dlls" "$(TargetName).p
     <ClCompile Include="..\..\dlls\weapon_mk23.cpp" />
     <ClCompile Include="..\..\dlls\weapon_mk23_akimbo.cpp" />
     <ClCompile Include="..\..\dlls\weapon_mp5.cpp" />
+    <ClCompile Include="..\..\dlls\weapon_physgun.cpp" />
     <ClCompile Include="..\..\dlls\weapon_python.cpp" />
     <ClCompile Include="..\..\dlls\weapon_rpg.cpp" />
     <ClCompile Include="..\..\dlls\weapon_satchel.cpp" />
@@ -191,6 +194,7 @@ cmd /c ""$(ProjectDir)..\..\filecopy.bat" "$(OutDir)" "cl_dlls" "$(TargetName).p
     <ClCompile Include="..\..\dlls\weapon_shotgun.cpp" />
     <ClCompile Include="..\..\dlls\weapon_sniper.cpp" />
     <ClCompile Include="..\..\dlls\weapon_squeakgrenade.cpp" />
+    <ClCompile Include="..\..\dlls\weapon_telepearl.cpp" />
     <ClCompile Include="..\..\dlls\weapon_tripmine.cpp" />
     <ClCompile Include="..\..\dlls\weapons_shared.cpp" />
     <ClCompile Include="..\..\dlls\weapon_glock.cpp" />

@@ -47,7 +47,7 @@ enum WeaponId
 	WEAPON_GLOCK,
 	WEAPON_PYTHON,
 	WEAPON_MP5,
-	WEAPON_CHAINGUN,
+	WEAPON_CHAINGUN, // unused
 	WEAPON_CROSSBOW,
 	WEAPON_SHOTGUN,
 	WEAPON_RPG,
@@ -58,18 +58,97 @@ enum WeaponId
 	WEAPON_TRIPMINE,
 	WEAPON_SATCHEL,
 	WEAPON_SNARK,
-
+	// 4.1
 	WEAPON_DEAGLE,
+	// 4.2
 	WEAPON_SNIPER,
 	WEAPON_M249,
 	WEAPON_MK23,
 	WEAPON_MK23_AKIMBO,
+	// 4.3
 	WEAPON_SAWBLADER,
 	WEAPON_GRENADE_LAUNCHER,
+	// 4.4
+	WEAPON_FLAMETHROWER,
+	WEAPON_GRAPPLE,
+	WEAPON_TELEPEARL,
+	WEAPON_PHYSGUN,
 
 	WEAPON_SUIT = 31
 };
 
+struct WeaponSlotData
+{
+	int WeaponId;
+	int SlotId;
+	int Position;
+};
+
+constexpr WeaponSlotData gWeaponSlots[] =
+{
+	// Melee and utilities
+	{ WEAPON_CROWBAR, 0, 0 },
+	{ WEAPON_PHYSGUN, 0, 1 },
+	{ WEAPON_GRAPPLE, 0, 2 },
+	{ WEAPON_TELEPEARL, 0, 3 },
+
+	// Light
+	{ WEAPON_GLOCK, 1, 0 },
+	{ WEAPON_PYTHON, 1, 1 },
+	{ WEAPON_DEAGLE, 1, 2 },
+	{ WEAPON_MK23, 1, 3 },
+	{ WEAPON_MK23_AKIMBO, 1, 4 },
+
+	// Medium
+	{ WEAPON_MP5, 2, 0 },
+	{ WEAPON_SHOTGUN, 2, 1 },
+	{ WEAPON_CROSSBOW, 2, 2 },
+	{ WEAPON_SAWBLADER, 2, 3 },
+
+	// Heavy
+	{ WEAPON_RPG, 3, 0 },
+	{ WEAPON_GAUSS, 3, 1 },
+	{ WEAPON_EGON, 3, 2 },
+	{ WEAPON_HORNETGUN, 3, 3 },
+	{ WEAPON_GRENADE_LAUNCHER, 3, 4 },
+
+	// Handheld
+	{ WEAPON_HANDGRENADE, 4, 0 },
+	{ WEAPON_SATCHEL, 4, 1 },
+	{ WEAPON_TRIPMINE, 4, 2 },
+	{ WEAPON_SNARK, 4, 3 },
+
+	// Special
+	{ WEAPON_M249, 5, 0 },
+	{ WEAPON_SNIPER, 5, 1 },
+	{ WEAPON_FLAMETHROWER, 5, 2 }
+};
+
+inline int HUD_GetWeaponSlot( int weaponId )
+{
+	for ( const auto& entry : gWeaponSlots )
+	{
+		if ( entry.WeaponId == weaponId )
+		{
+			return entry.SlotId;
+		}
+	}
+
+	return 0;
+}
+
+inline int HUD_GetWeaponPosition( int weaponId )
+{
+	for ( const auto& entry : gWeaponSlots )
+	{
+		if ( entry.WeaponId == weaponId )
+		{
+			return entry.Position;
+		}
+	}
+
+	return 0;
+}
 
 // used by suit voice to indicate damage sustained and repaired type to player
 

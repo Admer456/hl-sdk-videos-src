@@ -123,7 +123,6 @@ void CCineMonster::Spawn()
 	// UTIL_SetSize(pev, Vector(-8, -8, -8), Vector(8, 8, 8));
 	pev->solid = SOLID_NOT;
 
-
 	// REMOVE: The old side-effect
 #if 0
 	if ( m_iszIdle )

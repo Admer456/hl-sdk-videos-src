@@ -377,6 +377,14 @@ public:
 
 	int PrimaryAmmoIndex() override;
 	int SecondaryAmmoIndex() override;
+	bool GetFullItemInfo(ItemInfo* p)
+	{
+		bool result = GetItemInfo(p);
+		FinishItemInfo(p);
+		return result;
+	}
+	
+	static void FinishItemInfo(ItemInfo* p);
 
 	void PrintState();
 

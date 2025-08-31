@@ -33,8 +33,6 @@ bool CSniperRifle::GetItemInfo(ItemInfo* p)
 	p->iMaxAmmo2 = -1;
 	p->iMaxClip = SNIPER_MAX_CLIP;
 	p->iFlags = 0;
-	p->iSlot = 5;
-	p->iPosition = 1;
 	p->iId = m_iId = WEAPON_SNIPER;
 	p->iWeight = SNIPER_WEIGHT;
 

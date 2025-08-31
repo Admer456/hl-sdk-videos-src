@@ -61,8 +61,6 @@ bool CDesertEagle::GetItemInfo(ItemInfo* p)
 	p->pszAmmo2 = NULL;
 	p->iMaxAmmo2 = -1;
 	p->iMaxClip = DEAGLE_MAX_CLIP;
-	p->iSlot = 1;
-	p->iPosition = 2;
 	p->iFlags = 0;
 	p->iId = m_iId = WEAPON_DEAGLE;
 	p->iWeight = DEAGLE_WEIGHT;

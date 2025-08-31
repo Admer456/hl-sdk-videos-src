@@ -323,8 +323,6 @@ bool CM249::GetItemInfo(ItemInfo* p)
 	p->pszAmmo2 = nullptr;
 	p->iMaxAmmo2 = WEAPON_NOCLIP;
 	p->iMaxClip = M249_MAX_CLIP;
-	p->iSlot = 5;
-	p->iPosition = 0;
 	p->iFlags = 0;
 	p->iId = m_iId = WEAPON_M249;
 	p->iWeight = M249_WEIGHT;
