@@ -1344,6 +1344,56 @@ public:
 	}
 };
 
+
+class CGrapple : public CBasePlayerWeapon
+{
+public:
+	void Spawn() override;
+	void Precache() override;
+	int iItemSlot() override { return 3; }
+	bool GetItemInfo(ItemInfo* p) override;
+
+	void PrimaryAttack() override;
+	void SecondaryAttack() override;
+	void Reload() override;
+	bool Deploy() override;
+	void WeaponIdle() override;
+
+	bool UseDecrement() override
+	{
+#if defined(CLIENT_WEAPONS)
+		return true;
+#else
+		return false;
+#endif
+	}
+
+	void Unlock()
+	{
+		m_Hook = nullptr;
+		m_Distance = 0.0f;
+	}
+
+	float GetDistance() const
+	{
+		return m_Distance;
+	}
+	
+	void SetDistance( float distance )
+	{
+		if ( distance < 1.0f )
+		{
+			distance = 1.0f;
+		}
+
+		m_Distance = distance;
+	}
+
+private:
+	CBaseEntity* m_Hook = nullptr;
+	float m_Distance = 0.0f;
+};
+
 enum hgun_e
 {
 	HGUN_IDLE1 = 0,
