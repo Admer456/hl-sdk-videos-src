@@ -8,8 +8,8 @@ class CFuncFader : public CBaseEntity
 public:
 	void Spawn() override;
 
-	void FadeOutThink();
-	void FadeInThink();
+	DLLEXPORT void FadeOutThink();
+	DLLEXPORT void FadeInThink();
 };
 
 LINK_ENTITY_TO_CLASS(func_fader, CFuncFader);
@@ -19,6 +19,7 @@ void CFuncFader::Spawn()
 	SET_MODEL(edict(), STRING(pev->model));
 	pev->solid = SOLID_BSP;
 	pev->movetype = MOVETYPE_PUSHSTEP;
+	pev->rendermode = kRenderTransTexture;
 
 	// The mapper sets the render mode
 	pev->renderamt = 128; // 50% transparency
@@ -32,6 +33,7 @@ void CFuncFader::FadeOutThink()
 	pev->renderamt -= 1.0f;
 	if (pev->renderamt <= 0)
 	{
+		pev->renderamt = 0;
 		SetThink(&CFuncFader::FadeInThink);
 	}
 
@@ -43,8 +45,10 @@ void CFuncFader::FadeInThink()
 	pev->renderamt += 1.0f;
 	if (pev->renderamt >= 255)
 	{
+		pev->renderamt = 255;
 		SetThink(&CFuncFader::FadeOutThink);
 	}
 
 	pev->nextthink = gpGlobals->time + 0.02f;
 }
+
